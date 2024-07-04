@@ -1,0 +1,47 @@
+body#custom-background-login {
+  background-image: url("../img/bgLogin.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.floating-alert {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: auto;
+  max-width: 355px;
+  z-index: 1050;
+  overflow: hidden;
+}
+
+.floating-alert hr {
+  position: absolute;
+  bottom: -16px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border: none;
+  border-top: 3px solid rgba(231, 24, 24, 0.9);
+  animation: moveLine 10.5s linear infinite;
+}
+
+@keyframes moveLine {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media (max-width: 767px) {
+  .floating-alert {
+    left: 50%;
+    transform: translateX(-50%);
+    right: auto;
+    width: 90%;
+    max-width: none;
+  }
+}

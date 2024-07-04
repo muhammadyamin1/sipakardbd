@@ -1,0 +1,1 @@
+INSERT INTO tb_user (nama, email, password, role) VALUES ('M. Yamin', 'muhammadyamin1081@gmail.com', SHA2('admin', 256), 'admin');
