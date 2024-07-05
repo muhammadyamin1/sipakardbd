@@ -107,70 +107,7 @@ if (isset($_SESSION['nama']) && isset($_SESSION['role'])) {
 
   </header><!-- End Header -->
 
-  <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar">
-
-    <ul class="sidebar-nav" id="sidebar-nav">
-
-      <li class="nav-item">
-        <a class="nav-link" href="beranda.php">
-          <i class="bi bi-grid"></i>
-          <span>Beranda</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="kelolaPengguna.php">
-          <i class="bi bi-people"></i>
-          <span>Kelola Data Pengguna</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="diagnosis.php">
-          <i class="bi bi-clipboard-plus"></i>
-          <span>Diagnosis</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="gejala.php">
-          <i class="bi bi-thermometer-half"></i>
-          <span>Gejala</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="penyakit.php">
-          <i class="bi bi-file-medical"></i>
-          <span>Penyakit</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="rule.php">
-          <i class="bi bi-file-check"></i>
-          <span>Rule</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="laporan.php">
-          <i class="bi bi-files-alt"></i>
-          <span>Laporan</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="infoApp.php">
-          <i class="bi bi-info-circle"></i>
-          <span>Tentang Aplikasi</span>
-        </a>
-      </li>
-
-    </ul>
-
-  </aside><!-- End Sidebar-->
+  <?php include 'sidebar.php'; ?>
 
   <main id="main" class="main">
 

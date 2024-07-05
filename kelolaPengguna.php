@@ -121,70 +121,7 @@ $conn->close();
 
   </header><!-- End Header -->
 
-  <!-- ======= Sidebar ======= -->
-  <aside id="sidebar" class="sidebar">
-
-    <ul class="sidebar-nav" id="sidebar-nav">
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="beranda.php">
-          <i class="bi bi-grid"></i>
-          <span>Beranda</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" href="kelolaPengguna.php">
-          <i class="bi bi-people"></i>
-          <span>Kelola Data Pengguna</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="diagnosis.php">
-          <i class="bi bi-clipboard-plus"></i>
-          <span>Diagnosis</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="gejala.php">
-          <i class="bi bi-thermometer-half"></i>
-          <span>Gejala</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="penyakit.php">
-          <i class="bi bi-file-medical"></i>
-          <span>Penyakit</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="rule.php">
-          <i class="bi bi-file-check"></i>
-          <span>Rule</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="laporan.php">
-          <i class="bi bi-files-alt"></i>
-          <span>Laporan</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="infoApp.php">
-          <i class="bi bi-info-circle"></i>
-          <span>Tentang Aplikasi</span>
-        </a>
-      </li>
-
-    </ul>
-
-  </aside><!-- End Sidebar-->
+  <?php include 'sidebar.php'; ?>
 
   <main id="main" class="main">
 
@@ -204,7 +141,7 @@ $conn->close();
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Daftar Pengguna Tersedia</h5>
-              <button class="btn btn-primary btn-sm mb-4"><i class="bi bi-person-plus"></i> Tambah Pengguna</button>
+              <button id="tambahUser" class="btn btn-primary btn-sm mb-4"><i class="bi bi-person-plus"></i> Tambah Pengguna</button>
               <table id="userTable" class="table datatable" style="width:100%">
                 <thead>
                   <tr>
@@ -223,7 +160,7 @@ $conn->close();
                         <td><?php echo $row['role']; ?></td>
                         <td>
                           <button class="btn btn-primary btn-sm">Edit</button>
-                          <button class="btn btn-danger btn-sm">Hapus</button>
+                          <button class="btn btn-danger btn-sm hapusUser" data-id="<?php echo $row['idUser']; ?>">Hapus</button>
                         </td>
                       </tr>
                     <?php endwhile; ?>
@@ -253,6 +190,69 @@ $conn->close();
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
+  <!-- Modal Tambah Pengguna -->
+  <div class="modal fade" id="tambahUserModal" tabindex="-1" aria-labelledby="tambahUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="tambahUserModalLabel">Tambah Pengguna</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="tambahUserForm" method="POST" action="tambahUser.php">
+            <div class="mb-3">
+              <label for="nama" class="form-label">Nama</label>
+              <input type="text" class="form-control" id="nama" name="nama" required>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="email" name="email" required>
+              <div id="emailFeedback" class="invalid-feedback">
+                Email sudah digunakan.
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <div class="input-group">
+                <input type="password" class="form-control" id="password" name="password" required>
+                <span class="input-group-text" id="togglePassword">
+                  <i class="bi bi-eye" id="eyeIcon"></i>
+                </span>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="role" class="form-label">Role</label>
+              <select class="form-control" id="role" name="role" required>
+                <option value="admin">Admin</option>
+                <option value="user">User</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Konfirmasi Hapus -->
+  <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmDeleteModalLabel">Konfirmasi Hapus</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Apakah Anda yakin ingin menghapus pengguna ini?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+          <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Hapus</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Vendor JS Files -->
   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -267,6 +267,74 @@ $conn->close();
   <script src="assets/js/main.js"></script>
   <script src="assets/js/script.js"></script>
   <script src="assets/js/jquery-3.7.1.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var userIdToDelete;
+
+      // Tambahkan event listener untuk tombol hapus
+      document.querySelectorAll('.hapusUser').forEach(function(button) {
+        button.addEventListener('click', function() {
+          userIdToDelete = this.getAttribute('data-id');
+          var deleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+          deleteModal.show();
+        });
+      });
+
+      // Tambahkan event listener untuk tombol konfirmasi hapus
+      document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+        if (userIdToDelete) {
+          // Kirim permintaan hapus ke server
+          fetch('hapusUser.php', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+              },
+              body: 'idUser=' + userIdToDelete
+            })
+            .then(response => response.text())
+            .then(data => {
+              if (data === 'success') {
+                // Reload halaman setelah berhasil menghapus pengguna
+                location.reload();
+              } else {
+                alert('Gagal menghapus pengguna.');
+              }
+            });
+        }
+      });
+
+      const emailInput = document.getElementById('email');
+      const emailFeedback = document.getElementById('emailFeedback');
+      const submitButton = document.querySelector('#tambahUserForm button[type="submit"]');
+
+      emailInput.addEventListener('blur', function() {
+        const email = emailInput.value;
+
+        if (email) {
+          fetch('cekEmail.php', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+              },
+              body: 'email=' + encodeURIComponent(email)
+            })
+            .then(response => response.json())
+            .then(data => {
+              if (data.exists) {
+                emailInput.classList.add('is-invalid');
+                emailFeedback.style.display = 'block';
+                submitButton.disabled = true;
+              } else {
+                emailInput.classList.remove('is-invalid');
+                emailFeedback.style.display = 'none';
+                submitButton.disabled = false;
+              }
+            });
+        }
+      });
+    });
+  </script>
+
 
 </body>
 
