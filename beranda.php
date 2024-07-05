@@ -115,7 +115,7 @@ if (isset($_SESSION['nama']) && isset($_SESSION['role'])) {
       <h1>Beranda</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="beranda.php">Beranda</a></li>
+          <li class="breadcrumb-item active">Beranda</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->

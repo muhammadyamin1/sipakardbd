@@ -1,5 +1,5 @@
 <?php
-include 'dbKoneksi.php'; // Sesuaikan dengan file koneksi Anda
+include 'dbKoneksi.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $idUser = $_POST['idUser'];

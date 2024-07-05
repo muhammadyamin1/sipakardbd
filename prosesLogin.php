@@ -15,10 +15,12 @@ $result = $stmt->get_result();
 if ($result->num_rows == 1) {
     // Ambil data user dari hasil query
     $row = $result->fetch_assoc();
+    $id = $row['idUser'];
     $nama = $row['nama'];
     $role = $row['role'];
     // Login berhasil
     session_start();
+    $_SESSION['idUser'] = $id;
     $_SESSION['nama'] = $nama;
     $_SESSION['role'] = $role;
     $_SESSION['login_success'] = true;

@@ -129,7 +129,7 @@ $conn->close();
       <h1>Kelola Data Pengguna</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="kelolaPengguna.php">Kelola Data Pengguna</a></li>
+          <li class="breadcrumb-item active">Kelola Data Pengguna</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -159,8 +159,8 @@ $conn->close();
                         <td><?php echo $row['email']; ?></td>
                         <td><?php echo $row['role']; ?></td>
                         <td>
-                          <button class="btn btn-primary btn-sm">Edit</button>
-                          <button class="btn btn-danger btn-sm hapusUser" data-id="<?php echo $row['idUser']; ?>">Hapus</button>
+                          <a href="editUserForm.php?id=<?php echo $row['idUser']; ?>" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i> Edit</a>
+                          <button class="btn btn-danger btn-sm hapusUser" data-id="<?php echo $row['idUser']; ?>"><i class="bi bi-trash"></i> Hapus</button>
                         </td>
                       </tr>
                     <?php endwhile; ?>
@@ -271,7 +271,6 @@ $conn->close();
     document.addEventListener('DOMContentLoaded', function() {
       var userIdToDelete;
 
-      // Tambahkan event listener untuk tombol hapus
       document.querySelectorAll('.hapusUser').forEach(function(button) {
         button.addEventListener('click', function() {
           userIdToDelete = this.getAttribute('data-id');
@@ -303,6 +302,7 @@ $conn->close();
         }
       });
 
+      // Tambah User
       const emailInput = document.getElementById('email');
       const emailFeedback = document.getElementById('emailFeedback');
       const submitButton = document.querySelector('#tambahUserForm button[type="submit"]');
