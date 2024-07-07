@@ -1,11 +1,13 @@
 <?php
 include 'dbKoneksi.php';
 session_start();
+
 // Periksa apakah sudah ada sesi dan data yang disimpan
 if (isset($_SESSION['nama']) && isset($_SESSION['role'])) {
+  $idUserAktif = $_SESSION['idUser'];
   $nama = $_SESSION['nama'];
   $role = $_SESSION['role'];
-}else{
+} else {
   header("Location: index.php?pesan=belum-login");
   exit();
 }
@@ -17,9 +19,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $sql = "DELETE FROM tb_user WHERE idUser='$idUser'";
 
   if ($conn->query($sql) === TRUE) {
-    echo 'success';
+    echo json_encode(['status' => 'success']);
   } else {
-    echo 'error: ' . $conn->error;
+    echo json_encode(['status' => 'error', 'message' => $conn->error]);
   }
 
   $conn->close();

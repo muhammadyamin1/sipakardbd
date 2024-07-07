@@ -2,6 +2,7 @@
 session_start();
 // Periksa apakah sudah ada sesi dan data yang disimpan
 if (isset($_SESSION['nama']) && isset($_SESSION['role'])) {
+    $idUserAktif = $_SESSION['idUser'];
     $nama = $_SESSION['nama'];
     $role = $_SESSION['role'];
 } else {
@@ -172,12 +173,33 @@ if ($result->num_rows > 0) {
                             <label for="email" class="form-label">Email</label>
                             <input type="email" class="form-control" id="email" name="email" value="<?php echo $row['email']; ?>" required>
                         </div>
+                        <?php if ($row['idUser'] == '14') : ?>
+                            <input type="hidden" name="role" value="admin">
+                        <?php else : ?>
+                            <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') { ?>
+                                <div class="mb-3">
+                                    <label for="role" class="form-label">Role</label>
+                                    <select class="form-control" id="role" name="role" required>
+                                        <option value="admin" <?php if ($row['role'] == 'admin') echo 'selected'; ?>>Admin</option>
+                                        <option value="user" <?php if ($row['role'] == 'user') echo 'selected'; ?>>User</option>
+                                    </select>
+                                </div>
+                            <?php } else { ?>
+                                <div class="mb-3">
+                                    <label for="role" class="form-label">Role</label>
+                                    <select class="form-control" id="role" name="role" required>
+                                        <option value="user" selected>User</option>
+                                    </select>
+                                </div>
+                            <?php } ?>
+                        <?php endif; ?>
                         <div class="mb-3">
-                            <label for="role" class="form-label">Role</label>
-                            <select class="form-control" id="role" name="role" required>
-                                <option value="admin" <?php if ($row['role'] == 'admin') echo 'selected'; ?>>Admin</option>
-                                <option value="user" <?php if ($row['role'] == 'user') echo 'selected'; ?>>User</option>
-                            </select>
+                            <label for="password" class="form-label">Password Baru</label>
+                            <input type="password" class="form-control" id="password" name="password" autocomplete="new-password">
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirm_password" class="form-label">Konfirmasi Password Baru</label>
+                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" autocomplete="new-password">
                         </div>
                         <div class="d-flex justify-content-between">
                             <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Simpan Perubahan</button>
@@ -215,6 +237,13 @@ if ($result->num_rows > 0) {
     <script src="assets/js/main.js"></script>
     <script src="assets/js/script.js"></script>
     <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <script>
+        // Mengosongkan kolom password saat halaman dimuat
+        window.addEventListener('load', function() {
+            document.getElementById('password').value = '';
+            document.getElementById('confirm_password').value = '';
+        });
+    </script>
 
 </body>
 

@@ -2,9 +2,10 @@
 session_start();
 // Periksa apakah sudah ada sesi dan data yang disimpan
 if (isset($_SESSION['nama']) && isset($_SESSION['role'])) {
+  $idUserAktif = $_SESSION['idUser'];
   $nama = $_SESSION['nama'];
   $role = $_SESSION['role'];
-}else{
+} else {
   header("Location: index.php?pesan=belum-login");
   exit();
 }
@@ -52,60 +53,7 @@ if (isset($_SESSION['nama']) && isset($_SESSION['role'])) {
 
 <body>
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="header fixed-top d-flex align-items-center">
-
-    <div class="d-flex align-items-center justify-content-between">
-      <a href="beranda.php" class="logo d-flex align-items-center">
-        <img src="assets/img/logo.png" alt="">
-        <span class="d-none d-lg-block">Sistem Pakar DBD</span>
-      </a>
-      <i class="bi bi-list toggle-sidebar-btn"></i>
-    </div><!-- End Logo -->
-
-    <nav class="header-nav ms-auto">
-      <ul class="d-flex align-items-center">
-
-        <li class="nav-item dropdown pe-3">
-
-          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="assets/img/profil.png" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo ucwords($nama); ?></span>
-          </a><!-- End Profile Iamge Icon -->
-
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-            <li class="dropdown-header">
-              <h6><?php echo ucwords($nama); ?></h6>
-              <span><?php echo ucfirst($role); ?></span>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="profilSaya.php">
-                <i class="bi bi-person"></i>
-                <span>Profil Saya</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="logout.php">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Logout</span>
-              </a>
-            </li>
-
-          </ul><!-- End Profile Dropdown Items -->
-        </li><!-- End Profile Nav -->
-
-      </ul>
-    </nav><!-- End Icons Navigation -->
-
-  </header><!-- End Header -->
+  <?php include 'header.php'; ?>
 
   <?php include 'sidebar.php'; ?>
 
@@ -126,7 +74,7 @@ if (isset($_SESSION['nama']) && isset($_SESSION['role'])) {
         echo '
         <div class="alert alert-success alert-dismissible fade show floating-alert" role="alert">
           <i class="bi bi-check-circle me-1"></i>
-          Selamat Datang '.ucwords($nama).'
+          Selamat Datang ' . ucwords($nama) . '
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         <hr>
         </div>
@@ -151,28 +99,28 @@ if (isset($_SESSION['nama']) && isset($_SESSION['role'])) {
           <div class="card">
             <!-- Slides with controls -->
             <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                  <div class="carousel-item active">
-                    <img src="assets/img/nyamuk-1.jpg" class="d-block w-100" alt="...">
-                  </div>
-                  <div class="carousel-item">
-                    <img src="assets/img/nyamuk-2.jfif" class="d-block w-100" alt="...">
-                  </div>
-                  <div class="carousel-item">
-                    <img src="assets/img/nyamuk-3.jpg" class="d-block w-100" alt="...">
-                  </div>
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="assets/img/nyamuk-1.jpg" class="d-block w-100" alt="...">
                 </div>
+                <div class="carousel-item">
+                  <img src="assets/img/nyamuk-2.jfif" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                  <img src="assets/img/nyamuk-3.jpg" class="d-block w-100" alt="...">
+                </div>
+              </div>
 
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Next</span>
-                </button>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
 
-              </div><!-- End Slides with controls -->
+            </div><!-- End Slides with controls -->
           </div>
 
         </div>

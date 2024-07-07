@@ -45,3 +45,7 @@ body#custom-background-login {
     max-width: none;
   }
 }
+
+.disabled-button {
+  opacity: 0.65;
+}

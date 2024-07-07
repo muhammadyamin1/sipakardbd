@@ -33,12 +33,19 @@ document.addEventListener('DOMContentLoaded', function () {
     eyeIcon.classList.toggle('bi-eye');
     eyeIcon.classList.toggle('bi-eye-slash');
   });
-});
 
-// Tombol Tambah Pengguna
-document.getElementById('tambahUser').addEventListener('click', function () {
-  var tambahUserModal = new bootstrap.Modal(document.getElementById('tambahUserModal'), {
-    keyboard: false
+  /**
+   * Initiate tooltips
+   */
+  var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
   });
-  tambahUserModal.show();
+
+  // Menambahkan event listener untuk tombol disabled agar tidak dapat di klik
+  document.querySelectorAll('.disabled-button').forEach(button => {
+    button.addEventListener('click', function (event) {
+      event.preventDefault();
+    });
+  });
 });

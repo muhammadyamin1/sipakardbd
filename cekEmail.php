@@ -3,6 +3,7 @@ include 'dbKoneksi.php';
 session_start();
 // Periksa apakah sudah ada sesi dan data yang disimpan
 if (isset($_SESSION['nama']) && isset($_SESSION['role'])) {
+  $idUserAktif = $_SESSION['idUser'];
   $nama = $_SESSION['nama'];
   $role = $_SESSION['role'];
 }else{

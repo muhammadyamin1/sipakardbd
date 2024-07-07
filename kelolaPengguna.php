@@ -1,7 +1,8 @@
 <?php
 session_start();
 // Periksa apakah sudah ada sesi dan data yang disimpan
-if (isset($_SESSION['nama']) && isset($_SESSION['role'])) {
+if (isset($_SESSION['nama']) && isset($_SESSION['role']) && $_SESSION['role'] == 'admin') {
+  $idUserAktif = $_SESSION['idUser'];
   $nama = $_SESSION['nama'];
   $role = $_SESSION['role'];
 } else {
@@ -60,66 +61,7 @@ $conn->close();
 
 <body>
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="header fixed-top d-flex align-items-center">
-
-    <div class="d-flex align-items-center justify-content-between">
-      <a href="beranda.php" class="logo d-flex align-items-center">
-        <img src="assets/img/logo.png" alt="">
-        <span class="d-none d-lg-block">Sistem Pakar DBD</span>
-      </a>
-      <i class="bi bi-list toggle-sidebar-btn"></i>
-    </div><!-- End Logo -->
-
-    <nav class="header-nav ms-auto">
-      <ul class="d-flex align-items-center">
-
-        <li class="nav-item dropdown pe-3">
-
-          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="assets/img/profil.png" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">
-              <?php echo ucwords($nama); ?>
-            </span>
-          </a><!-- End Profile Iamge Icon -->
-
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-            <li class="dropdown-header">
-              <h6>
-                <?php echo ucwords($nama); ?>
-              </h6>
-              <span>
-                <?php echo ucfirst($role); ?>
-              </span>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="profilSaya.php">
-                <i class="bi bi-person"></i>
-                <span>Profil Saya</span>
-              </a>
-            </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="logout.php">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Logout</span>
-              </a>
-            </li>
-
-          </ul><!-- End Profile Dropdown Items -->
-        </li><!-- End Profile Nav -->
-
-      </ul>
-    </nav><!-- End Icons Navigation -->
-
-  </header><!-- End Header -->
+  <?php include 'header.php'; ?>
 
   <?php include 'sidebar.php'; ?>
 
@@ -135,6 +77,25 @@ $conn->close();
     </div><!-- End Page Title -->
 
     <section class="section">
+      <?php
+      if (isset($_SESSION['alert'])) {
+        $alert_type = $_SESSION['alert']['type'];
+        $alert_message = $_SESSION['alert']['message'];
+
+        // Hapus session alert setelah menampilkannya
+        unset($_SESSION['alert']);
+
+        // Tampilkan alert Bootstrap
+        echo '
+        <div class="alert alert-' . $alert_type . ' alert-dismissible fade show floating-alert" role="alert">
+          <i class="bi bi-check-circle me-1"></i>
+          ' . $alert_message . '
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <hr>
+        </div>
+        ';
+      }
+      ?>
       <div class="row">
         <div class="col-lg-12">
 
@@ -142,35 +103,41 @@ $conn->close();
             <div class="card-body">
               <h5 class="card-title">Daftar Pengguna Tersedia</h5>
               <button id="tambahUser" class="btn btn-primary btn-sm mb-4"><i class="bi bi-person-plus"></i> Tambah Pengguna</button>
-              <table id="userTable" class="table datatable" style="width:100%">
-                <thead>
-                  <tr>
-                    <th>Nama</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Aksi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php if ($result->num_rows > 0) : ?>
-                    <?php while ($row = $result->fetch_assoc()) : ?>
-                      <tr>
-                        <td><?php echo $row['nama']; ?></td>
-                        <td><?php echo $row['email']; ?></td>
-                        <td><?php echo $row['role']; ?></td>
-                        <td>
-                          <a href="editUserForm.php?id=<?php echo $row['idUser']; ?>" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i> Edit</a>
-                          <button class="btn btn-danger btn-sm hapusUser" data-id="<?php echo $row['idUser']; ?>"><i class="bi bi-trash"></i> Hapus</button>
-                        </td>
-                      </tr>
-                    <?php endwhile; ?>
-                  <?php else : ?>
+              <div class="table-responsive">
+                <table id="userTable" class="table datatable" style="width:100%">
+                  <thead>
                     <tr>
-                      <td colspan="4">Tidak ada data.</td>
+                      <th>Nama</th>
+                      <th>Email</th>
+                      <th>Role</th>
+                      <th>Aksi</th>
                     </tr>
-                  <?php endif; ?>
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    <?php if ($result->num_rows > 0) : ?>
+                      <?php while ($row = $result->fetch_assoc()) : ?>
+                        <tr>
+                          <td><?php echo $row['nama']; ?></td>
+                          <td><?php echo $row['email']; ?></td>
+                          <td><?php echo $row['role']; ?></td>
+                          <td>
+                            <a href="editUserForm.php?id=<?php echo $row['idUser']; ?>" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i> Edit</a>
+                            <?php if ($row['idUser'] == $idUserAktif || $row['idUser'] == '14') : ?>
+                              <button class="btn btn-danger btn-sm disabled-button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Tidak dapat menghapus pengguna atau diri sendiri"><i class="bi bi-trash"></i> Hapus</button>
+                            <?php else : ?>
+                              <button class="btn btn-danger btn-sm hapusUser" data-id="<?php echo $row['idUser']; ?>"><i class="bi bi-trash"></i> Hapus</button>
+                            <?php endif; ?>
+                          </td>
+                        </tr>
+                      <?php endwhile; ?>
+                    <?php else : ?>
+                      <tr>
+                        <td colspan="4">Tidak ada data.</td>
+                      </tr>
+                    <?php endif; ?>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
 
@@ -268,6 +235,14 @@ $conn->close();
   <script src="assets/js/script.js"></script>
   <script src="assets/js/jquery-3.7.1.min.js"></script>
   <script>
+    // Tombol Tambah Pengguna
+    document.getElementById('tambahUser').addEventListener('click', function() {
+      var tambahUserModal = new bootstrap.Modal(document.getElementById('tambahUserModal'), {
+        keyboard: false
+      });
+      tambahUserModal.show();
+    });
+
     document.addEventListener('DOMContentLoaded', function() {
       var userIdToDelete;
 
@@ -279,7 +254,7 @@ $conn->close();
         });
       });
 
-      // Tambahkan event listener untuk tombol konfirmasi hapus
+      // Event listener untuk tombol konfirmasi hapus
       document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
         if (userIdToDelete) {
           // Kirim permintaan hapus ke server
@@ -290,19 +265,23 @@ $conn->close();
               },
               body: 'idUser=' + userIdToDelete
             })
-            .then(response => response.text())
+            .then(response => response.json())
             .then(data => {
-              if (data === 'success') {
+              if (data.status === 'success') {
+                alert('Pengguna berhasil dihapus.');
                 // Reload halaman setelah berhasil menghapus pengguna
                 location.reload();
               } else {
-                alert('Gagal menghapus pengguna.');
+                alert('Gagal menghapus pengguna: ' + data.message);
               }
+            })
+            .catch(error => {
+              alert('Terjadi kesalahan: ' + error.message);
             });
         }
       });
 
-      // Tambah User
+      // Cek email saat tambah user
       const emailInput = document.getElementById('email');
       const emailFeedback = document.getElementById('emailFeedback');
       const submitButton = document.querySelector('#tambahUserForm button[type="submit"]');

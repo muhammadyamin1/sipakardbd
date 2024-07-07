@@ -5,7 +5,7 @@ session_start();
 if (isset($_SESSION['nama']) && isset($_SESSION['role'])) {
   $nama = $_SESSION['nama'];
   $role = $_SESSION['role'];
-}else{
+} else {
   header("Location: index.php?pesan=belum-login");
   exit();
 }
@@ -23,8 +23,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $sql = "INSERT INTO tb_user (nama, email, password, role) VALUES ('$nama', '$email', '$hashed_password', '$role')";
 
   if ($conn->query($sql) === TRUE) {
+    // Pesan sukses disimpan ke dalam session
+    $_SESSION['alert'] = array(
+      'type' => 'success',
+      'message' => 'Pengguna berhasil ditambahkan.'
+    );
     // Redirect kembali ke halaman pengguna setelah penyimpanan berhasil
     header('Location: kelolaPengguna.php');
+    exit();
   } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
   }
