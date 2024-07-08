@@ -81,6 +81,7 @@ $conn->close();
       if (isset($_SESSION['alert'])) {
         $alert_type = $_SESSION['alert']['type'];
         $alert_message = $_SESSION['alert']['message'];
+        $alert_icon = $_SESSION['alert']['icon'];
 
         // Hapus session alert setelah menampilkannya
         unset($_SESSION['alert']);
@@ -88,7 +89,7 @@ $conn->close();
         // Tampilkan alert Bootstrap
         echo '
         <div class="alert alert-' . $alert_type . ' alert-dismissible fade show floating-alert" role="alert">
-          <i class="bi bi-check-circle me-1"></i>
+          <i class="bi bi-' . $alert_icon . ' me-1"></i>
           ' . $alert_message . '
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         <hr>
@@ -173,7 +174,7 @@ $conn->close();
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
-              <input type="email" class="form-control" id="email" name="email" required>
+              <input type="email" class="form-control" id="email" name="email" required autocomplete="off">
               <div id="emailFeedback" class="invalid-feedback">
                 Email sudah digunakan.
               </div>
@@ -181,7 +182,7 @@ $conn->close();
             <div class="mb-3">
               <label for="password" class="form-label">Password</label>
               <div class="input-group">
-                <input type="password" class="form-control" id="password" name="password" required>
+                <input type="password" class="form-control" id="password" name="password" required autocomplete="new-password">
                 <span class="input-group-text" id="togglePassword">
                   <i class="bi bi-eye" id="eyeIcon"></i>
                 </span>

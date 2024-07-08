@@ -2,7 +2,8 @@
 include 'dbKoneksi.php';
 session_start();
 // Periksa apakah sudah ada sesi dan data yang disimpan
-if (isset($_SESSION['nama']) && isset($_SESSION['role'])) {
+if (isset($_SESSION['nama']) && isset($_SESSION['role']) && $_SESSION['role'] == 'admin') {
+  $idUserAktif = $_SESSION['idUser'];
   $nama = $_SESSION['nama'];
   $role = $_SESSION['role'];
 } else {
@@ -16,25 +17,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $password = $_POST['password'];
   $role = $_POST['role'];
 
-  // Hash password menggunakan SHA-256
-  $hashed_password = hash('sha256', $password);
+  // Cek apakah email sudah digunakan oleh pengguna lain
+  $sql = "SELECT * FROM tb_user WHERE email='$email'";
+  $result = $conn->query($sql);
 
-  // query untuk menyimpan data pengguna
-  $sql = "INSERT INTO tb_user (nama, email, password, role) VALUES ('$nama', '$email', '$hashed_password', '$role')";
-
-  if ($conn->query($sql) === TRUE) {
-    // Pesan sukses disimpan ke dalam session
+  if ($result->num_rows > 0) {
     $_SESSION['alert'] = array(
-      'type' => 'success',
-      'message' => 'Pengguna berhasil ditambahkan.'
+      'type' => 'danger',
+      'message' => 'Email sudah digunakan.',
+      'icon' => 'exclamation-octagon'
     );
-    // Redirect kembali ke halaman pengguna setelah penyimpanan berhasil
-    header('Location: kelolaPengguna.php');
+    header("Location: kelolaPengguna.php");
     exit();
   } else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
-  }
+    // Hash password menggunakan SHA-256
+    $hashed_password = hash('sha256', $password);
 
+    // query untuk menyimpan data pengguna
+    $sql = "INSERT INTO tb_user (nama, email, password, role) VALUES ('$nama', '$email', '$hashed_password', '$role')";
+
+    if ($conn->query($sql) === TRUE) {
+      // Pesan sukses disimpan ke dalam session
+      $_SESSION['alert'] = array(
+        'type' => 'success',
+        'message' => 'Pengguna berhasil ditambahkan.',
+        'icon' => 'check-circle'
+      );
+      // Redirect kembali ke halaman pengguna setelah penyimpanan berhasil
+      header('Location: kelolaPengguna.php');
+      exit();
+    } else {
+      echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+  }
   $conn->close();
 }
-?>
