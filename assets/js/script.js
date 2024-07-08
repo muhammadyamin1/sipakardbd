@@ -24,15 +24,18 @@ document.addEventListener('DOMContentLoaded', function () {
   const password = document.getElementById('password');
   const eyeIcon = document.getElementById('eyeIcon');
 
-  togglePassword.addEventListener('click', function () {
-    // Toggle the type attribute
-    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-    password.setAttribute('type', type);
+  // Hanya tambahkan event listener jika elemen-elemen ada di halaman
+  if (togglePassword && password && eyeIcon) {
+    togglePassword.addEventListener('click', function () {
+      // Toggle the type attribute
+      const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+      password.setAttribute('type', type);
 
-    // Toggle the eye / eye-slash icon
-    eyeIcon.classList.toggle('bi-eye');
-    eyeIcon.classList.toggle('bi-eye-slash');
-  });
+      // Toggle the eye / eye-slash icon
+      eyeIcon.classList.toggle('bi-eye');
+      eyeIcon.classList.toggle('bi-eye-slash');
+    });
+  }
 
   /**
    * Initiate tooltips
