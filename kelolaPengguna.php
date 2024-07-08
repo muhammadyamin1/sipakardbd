@@ -44,7 +44,8 @@ $conn->close();
   <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
   <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
+  <link href="assets/vendor/datatables/css/dataTables.bootstrap5.css" rel="stylesheet">
+  <link href="assets/vendor/datatables/css/buttons/buttons.bootstrap5.min.css" rel="stylesheet">
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
@@ -105,7 +106,7 @@ $conn->close();
               <h5 class="card-title">Daftar Pengguna Tersedia</h5>
               <button id="tambahUser" class="btn btn-primary btn-sm mb-4"><i class="bi bi-person-plus"></i> Tambah Pengguna</button>
               <div class="table-responsive">
-                <table id="userTable" class="table datatable" style="width:100%">
+                <table id="userTable" class="table" style="width:100%">
                   <thead>
                     <tr>
                       <th>Nama</th>
@@ -227,15 +228,34 @@ $conn->close();
   <script src="assets/vendor/chart.js/chart.umd.js"></script>
   <script src="assets/vendor/echarts/echarts.min.js"></script>
   <script src="assets/vendor/quill/quill.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+  <script src="assets/js/jquery-3.7.1.min.js"></script>
+  <script src="assets/vendor/datatables/js/dataTables.js"></script>
+  <script src="assets/vendor/datatables/js/dataTables.bootstrap5.js"></script>
+  <script src="assets/vendor/datatables/js/buttons/dataTables.buttons.min.js"></script>
+  <script src="assets/vendor/datatables/js/buttons/buttons.bootstrap5.min.js"></script>
+  <script src="assets/vendor/datatables/js/buttons/jszip.min.js"></script>
+  <script src="assets/vendor/datatables/js/buttons/pdfmake.min.js"></script>
+  <script src="assets/vendor/datatables/js/buttons/vfs_fonts.js"></script>
+  <script src="assets/vendor/datatables/js/buttons/buttons.html5.min.js"></script>
+  <script src="assets/vendor/datatables/js/buttons/buttons.print.min.js"></script>
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
   <script src="assets/js/script.js"></script>
-  <script src="assets/js/jquery-3.7.1.min.js"></script>
   <script>
+    // Tabel Pengguna
+    $('#userTable').DataTable({
+      layout: {
+        topStart: {
+          buttons: [
+            'copy', 'excel', 'pdf', 'print'
+          ]
+        }
+      }
+    });
+
     // Tombol Tambah Pengguna
     document.getElementById('tambahUser').addEventListener('click', function() {
       var tambahUserModal = new bootstrap.Modal(document.getElementById('tambahUserModal'), {
