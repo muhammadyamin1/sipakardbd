@@ -3,11 +3,7 @@ include 'dbKoneksi.php';
 session_start();
 
 // Periksa apakah sudah ada sesi dan data yang disimpan
-if (isset($_SESSION['nama']) && isset($_SESSION['role'])) {
-  $idUserAktif = $_SESSION['idUser'];
-  $nama = $_SESSION['nama'];
-  $role = $_SESSION['role'];
-} else {
+if (!isset($_SESSION['nama']) || !isset($_SESSION['role']) || $_SESSION['role'] != 'admin') {
   header("Location: index.php?pesan=belum-login");
   exit();
 }
@@ -26,4 +22,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   $conn->close();
 }
-?>
