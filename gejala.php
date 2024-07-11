@@ -109,10 +109,9 @@ $conn->close();
                 <table id="tabelGejala" class="table" style="width:100%">
                   <thead>
                     <tr>
-                      <th>No</th>
                       <th>ID Gejala</th>
                       <th>Nama</th>
-                      <th>Deskripsi</th>
+                      <th class="dt-left">Deskripsi</th>
                       <th>Aksi</th>
                     </tr>
                   </thead>
@@ -120,19 +119,12 @@ $conn->close();
                     <?php if ($result->num_rows > 0) : ?>
                       <?php while ($row = $result->fetch_assoc()) : ?>
                         <tr>
-                          <?php $no = 1; ?>
-                          <td><?php echo $no;
-                              $no++; ?></td>
                           <td><?php echo $row['idGejala']; ?></td>
                           <td><?php echo $row['nama']; ?></td>
-                          <td><?php echo $row['deskripsi']; ?></td>
+                          <td class="dt-left"><?php echo $row['deskripsi']; ?></td>
                           <td>
-                            <a href="editUserForm.php?id=<?php echo $row['idUser']; ?>" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i> Edit</a>
-                            <?php if ($row['idUser'] == $idUserAktif || $row['idUser'] == '14') : ?>
-                              <button class="btn btn-danger btn-sm disabled-button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Tidak dapat menghapus pengguna atau diri sendiri"><i class="bi bi-trash"></i> Hapus</button>
-                            <?php else : ?>
-                              <button class="btn btn-danger btn-sm hapusUser" data-id="<?php echo $row['idUser']; ?>"><i class="bi bi-trash"></i> Hapus</button>
-                            <?php endif; ?>
+                            <button class="btn btn-primary btn-sm editGejala" data-id="<?php echo $row['idGejala']; ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><i class="bi bi-pencil"></i></button>
+                            <button class="btn btn-danger btn-sm hapusGejala" data-id="<?php echo $row['idGejala']; ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="Hapus"><i class="bi bi-trash"></i></button>
                           </td>
                         </tr>
                       <?php endwhile; ?>
@@ -195,6 +187,35 @@ $conn->close();
     </div>
   </div>
 
+  <!-- Modal Edit Gejala -->
+  <div class="modal fade" id="editGejalaModal" tabindex="-1" aria-labelledby="editGejalaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editGejalaModalLabel">Edit Gejala</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="editGejalaForm">
+          <div class="modal-body">
+            <input type="hidden" id="editGejalaId" name="editGejalaId">
+            <div class="mb-3">
+              <label for="editGejalaNama" class="form-label">Nama Gejala</label>
+              <input type="text" class="form-control" id="editGejalaNama" name="editGejalaNama">
+            </div>
+            <div class="mb-3">
+              <label for="editGejalaDeskripsi" class="form-label">Deskripsi Gejala</label>
+              <textarea class="form-control" id="editGejalaDeskripsi" name="editGejalaDeskripsi"></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+            <button type="submit" class="btn btn-primary" id="saveChangesBtn">Simpan Perubahan</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal Konfirmasi Hapus -->
   <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -204,7 +225,7 @@ $conn->close();
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          Apakah Anda yakin ingin menghapus pengguna ini?
+          Apakah Anda yakin ingin menghapus gejala ini?
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -223,6 +244,7 @@ $conn->close();
   <script src="assets/js/jquery-3.7.1.min.js"></script>
   <script src="assets/vendor/datatables/js/dataTables.js"></script>
   <script src="assets/vendor/datatables/js/dataTables.bootstrap5.js"></script>
+  <script src="assets/vendor/datatables/js/plugins/natural.js"></script>
   <script src="assets/vendor/datatables/js/buttons/dataTables.buttons.min.js"></script>
   <script src="assets/vendor/datatables/js/buttons/buttons.bootstrap5.min.js"></script>
   <script src="assets/vendor/datatables/js/buttons/jszip.min.js"></script>
@@ -241,11 +263,22 @@ $conn->close();
     $('#tabelGejala').DataTable({
       layout: {
         topStart: {
-          buttons: [
-            'copy', 'excel', 'pdf', 'print'
-          ]
+          buttons: ['copy', 'excel', 'pdf', 'print']
         }
-      }
+      },
+      columnDefs: [{
+          "className": "dt-left",
+          "targets": 2
+        }, // Mengatur kolom ketiga (Deskripsi) agar left-aligned
+        {
+          "type": "natural",
+          "targets": 0
+        } // Menggunakan natural sort untuk kolom ID Gejala (indeks 0)
+      ],
+      order: [
+        [0, 'asc']
+      ],
+      pageLength: 50
     });
 
     // Tombol Tambah Gejala
@@ -262,11 +295,61 @@ $conn->close();
     });
 
     document.addEventListener('DOMContentLoaded', function() {
-      var userIdToDelete;
-
-      document.querySelectorAll('.hapusUser').forEach(function(button) {
+      // Edit Gejala
+      document.querySelectorAll('.editGejala').forEach(function(button) {
         button.addEventListener('click', function() {
-          userIdToDelete = this.getAttribute('data-id');
+          var gejalaId = this.getAttribute('data-id');
+
+          // Contoh implementasi fetch untuk mendapatkan detail gejala berdasarkan ID
+          fetch('getGejalaById.php?idGejala=' + gejalaId)
+            .then(response => response.json())
+            .then(data => {
+              // Mengisi nilai formulir modal dengan data gejala yang didapatkan
+              document.getElementById('editGejalaId').value = data.idGejala;
+              document.getElementById('editGejalaNama').value = data.nama;
+              document.getElementById('editGejalaDeskripsi').value = data.deskripsi;
+
+              // Menampilkan modal edit
+              var editModal = new bootstrap.Modal(document.getElementById('editGejalaModal'));
+              editModal.show();
+            })
+            .catch(error => {
+              console.error('Error fetching gejala details:', error);
+              alert('Terjadi kesalahan saat mengambil detail gejala.');
+            });
+        });
+      });
+
+      //Edit Gejala - Modal Edit
+      document.getElementById('saveChangesBtn').addEventListener('click', function(event) {
+        event.preventDefault();
+
+        var editFormData = new FormData(document.getElementById('editGejalaForm'));
+
+        fetch('editGejala.php', {
+            method: 'POST',
+            body: editFormData
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.status === 'success') {
+              alert('Perubahan gejala berhasil disimpan.');
+              location.reload();
+            } else {
+              alert('Gagal menyimpan perubahan gejala: ' + data.message);
+            }
+          })
+          .catch(error => {
+            alert('Terjadi kesalahan: ' + error.message);
+          });
+      });
+
+      // Hapus Gejala - Modal Hapus
+      var gejalaIdToDelete;
+
+      document.querySelectorAll('.hapusGejala').forEach(function(button) {
+        button.addEventListener('click', function() {
+          gejalaIdToDelete = this.getAttribute('data-id');
           var deleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
           deleteModal.show();
         });
@@ -274,23 +357,23 @@ $conn->close();
 
       // Event listener untuk tombol konfirmasi hapus
       document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
-        if (userIdToDelete) {
+        if (gejalaIdToDelete) {
           // Kirim permintaan hapus ke server
-          fetch('hapusUser.php', {
+          fetch('hapusGejala.php', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
               },
-              body: 'idUser=' + userIdToDelete
+              body: 'idGejala=' + gejalaIdToDelete
             })
             .then(response => response.json())
             .then(data => {
               if (data.status === 'success') {
-                alert('Pengguna berhasil dihapus.');
+                alert('Gejala berhasil dihapus.');
                 // Reload halaman setelah berhasil menghapus pengguna
                 location.reload();
               } else {
-                alert('Gagal menghapus pengguna: ' + data.message);
+                alert('Gagal menghapus gejala: ' + data.message);
               }
             })
             .catch(error => {

@@ -9,7 +9,7 @@ body#custom-background-login {
   top: 20px;
   right: 20px;
   width: auto;
-  max-width: 355px;
+  max-width: 500px;
   z-index: 1050;
   overflow: hidden;
 }
@@ -48,4 +48,8 @@ body#custom-background-login {
 
 .disabled-button {
   opacity: 0.65;
+}
+
+.dt-left {
+  text-align: left!important;
 }
