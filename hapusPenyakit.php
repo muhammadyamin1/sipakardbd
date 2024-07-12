@@ -1,5 +1,6 @@
 <?php
 include 'dbKoneksi.php';
+
 session_start();
 
 if (!isset($_SESSION['nama']) || !isset($_SESSION['role']) || $_SESSION['role'] != 'admin') {
@@ -8,16 +9,10 @@ if (!isset($_SESSION['nama']) || !isset($_SESSION['role']) || $_SESSION['role'] 
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $idGejala = $_POST['editGejalaId'];
-    $nama = $_POST['editGejalaNama'];
-    $deskripsi = $_POST['editGejalaDeskripsi'];
+    $idPenyakit = $_POST['idPenyakit'];
 
-    if (empty($deskripsi)) {
-        $deskripsi = '-';
-    }
-
-    // Query untuk mengupdate gejala berdasarkan ID
-    $sql = "UPDATE tb_gejala SET nama='$nama', deskripsi='$deskripsi' WHERE idGejala='$idGejala'";
+    // Query untuk menghapus penyakit berdasarkan ID Penyakit
+    $sql = "DELETE FROM tb_penyakit WHERE idPenyakit='$idPenyakit'";
 
     if ($conn->query($sql) === TRUE) {
         echo json_encode(['status' => 'success']);
@@ -26,6 +21,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $conn->close();
-} else {
-    echo json_encode(['status' => 'error', 'message' => 'Invalid request.']);
 }

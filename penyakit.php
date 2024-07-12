@@ -13,7 +13,7 @@ if (isset($_SESSION['nama']) && isset($_SESSION['role']) && $_SESSION['role'] ==
 // Mengambil data dari tb_user
 include 'dbKoneksi.php';
 
-$sql = "SELECT idUser, nama, email, role FROM tb_user";
+$sql = "SELECT idPenyakit, nama, deskripsi FROM tb_penyakit";
 $result = $conn->query($sql);
 
 $conn->close();
@@ -25,7 +25,7 @@ $conn->close();
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Kelola Data Pengguna</title>
+  <title>Penyakit</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -69,10 +69,10 @@ $conn->close();
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Kelola Data Pengguna</h1>
+      <h1>Penyakit</h1>
       <nav>
         <ol class="breadcrumb">
-          <li class="breadcrumb-item active">Kelola Data Pengguna</li>
+          <li class="breadcrumb-item active">Penyakit</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -103,15 +103,15 @@ $conn->close();
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Daftar Pengguna Tersedia</h5>
-              <button id="tambahUser" class="btn btn-primary btn-sm mb-4"><i class="bi bi-person-plus"></i> Tambah Pengguna</button>
+              <h5 class="card-title">Kategori Penyakit Demam Berdarah Dengue</h5>
+              <button id="tambahPenyakit" class="btn btn-primary btn-sm mb-4" data-bs-toggle="modal" data-bs-target="#tambahPenyakitModal"><i class="bi bi-person-plus"></i> Tambah Penyakit</button>
               <div class="table-responsive">
-                <table id="userTable" class="table" style="width:100%">
+                <table id="tabelPenyakit" class="table" style="width:100%">
                   <thead>
                     <tr>
+                      <th>ID Penyakit</th>
                       <th>Nama</th>
-                      <th>Email</th>
-                      <th>Role</th>
+                      <th class="dt-left">Deskripsi</th>
                       <th>Aksi</th>
                     </tr>
                   </thead>
@@ -119,16 +119,12 @@ $conn->close();
                     <?php if ($result->num_rows > 0) : ?>
                       <?php while ($row = $result->fetch_assoc()) : ?>
                         <tr>
+                          <td><?php echo $row['idPenyakit']; ?></td>
                           <td><?php echo $row['nama']; ?></td>
-                          <td><?php echo $row['email']; ?></td>
-                          <td><?php echo $row['role']; ?></td>
+                          <td class="dt-left"><?php echo $row['deskripsi']; ?></td>
                           <td>
-                            <a href="editUserForm.php?id=<?php echo $row['idUser']; ?>" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i> Edit</a>
-                            <?php if ($row['idUser'] == $idUserAktif || $row['idUser'] == '14') : ?>
-                              <button class="btn btn-danger btn-sm disabled-button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Tidak dapat menghapus pengguna atau diri sendiri"><i class="bi bi-trash"></i> Hapus</button>
-                            <?php else : ?>
-                              <button class="btn btn-danger btn-sm hapusUser" data-id="<?php echo $row['idUser']; ?>"><i class="bi bi-trash"></i> Hapus</button>
-                            <?php endif; ?>
+                            <button class="btn btn-primary btn-sm editPenyakit" data-id="<?php echo $row['idPenyakit']; ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><i class="bi bi-pencil"></i></button>
+                            <button class="btn btn-danger btn-sm hapusPenyakit" data-id="<?php echo $row['idPenyakit']; ?>" data-bs-toggle="tooltip" data-bs-placement="top" title="Hapus"><i class="bi bi-trash"></i></button>
                           </td>
                         </tr>
                       <?php endwhile; ?>
@@ -159,44 +155,58 @@ $conn->close();
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-  <!-- Modal Tambah Pengguna -->
-  <div class="modal fade" id="tambahUserModal" tabindex="-1" aria-labelledby="tambahUserModalLabel" aria-hidden="true">
+  <!-- Modal Tambah Penyakit -->
+  <div class="modal fade" id="tambahPenyakitModal" tabindex="-1" aria-labelledby="tambahPenyakitModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="tambahUserModalLabel">Tambah Pengguna</h5>
+          <h5 class="modal-title" id="tambahPenyakitModalLabel">Tambah Penyakit</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form id="tambahUserForm" method="POST" action="tambahUser.php">
+          <form id="tambahPenyakitForm" method="post" action="tambahPenyakit.php">
+            <div class="mb-3">
+              <label for="idPenyakit" class="form-label">ID Penyakit</label>
+              <div class="input-group">
+                <span class="input-group-text" id="idPenyakitPrefix">P</span>
+                <input type="number" class="form-control" id="idPenyakit" name="idPenyakit" placeholder="Masukkan angka ID Penyakit" required>
+              </div>
+            </div>
             <div class="mb-3">
               <label for="nama" class="form-label">Nama</label>
-              <input type="text" class="form-control" id="nama" name="nama" required>
+              <input type="text" class="form-control" id="nama" name="nama" maxlength="255" required>
             </div>
             <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input type="email" class="form-control" id="email" name="email" required autocomplete="off">
-              <div id="emailFeedback" class="invalid-feedback">
-                Email sudah digunakan.
-              </div>
+              <label for="deskripsi" class="form-label">Deskripsi</label>
+              <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" placeholder="Tidak wajib (optional)"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Tambah Penyakit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Edit Penyakit -->
+  <div class="modal fade" id="editPenyakitModal" tabindex="-1" aria-labelledby="editPenyakitModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editPenyakitModalLabel">Edit Penyakit</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="editPenyakitForm">
+            <input type="hidden" id="editPenyakitId" name="idPenyakit">
+            <div class="mb-3">
+              <label for="editNama" class="form-label">Nama</label>
+              <input type="text" class="form-control" id="editNama" name="nama" maxlength="255" required>
             </div>
             <div class="mb-3">
-              <label for="password" class="form-label">Password</label>
-              <div class="input-group">
-                <input type="password" class="form-control" id="password" name="password" required autocomplete="new-password">
-                <span class="input-group-text" id="togglePassword">
-                  <i class="bi bi-eye" id="eyeIcon"></i>
-                </span>
-              </div>
+              <label for="editDeskripsi" class="form-label">Deskripsi</label>
+              <textarea class="form-control" id="editDeskripsi" name="deskripsi" rows="3" placeholder="Tidak wajib (optional)"></textarea>
             </div>
-            <div class="mb-3">
-              <label for="role" class="form-label">Role</label>
-              <select class="form-control" id="role" name="role" required>
-                <option value="admin">Admin</option>
-                <option value="user">User</option>
-              </select>
-            </div>
-            <button type="submit" class="btn btn-primary">Simpan</button>
+            <button type="submit" class="btn btn-primary" id="saveChangesBtn">Simpan Perubahan</button>
           </form>
         </div>
       </div>
@@ -204,23 +214,24 @@ $conn->close();
   </div>
 
   <!-- Modal Konfirmasi Hapus -->
-  <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+  <div class="modal fade" id="confirmDeletePenyakitModal" tabindex="-1" aria-labelledby="confirmDeletePenyakitModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="confirmDeleteModalLabel">Konfirmasi Hapus</h5>
+          <h5 class="modal-title" id="confirmDeletePenyakitModalLabel">Konfirmasi Hapus</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          Apakah Anda yakin ingin menghapus pengguna ini?
+          Apakah Anda yakin ingin menghapus penyakit ini?
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-          <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Hapus</button>
+          <button type="button" class="btn btn-danger" id="confirmDeletePenyakitBtn">Hapus</button>
         </div>
       </div>
     </div>
   </div>
+
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
@@ -231,6 +242,7 @@ $conn->close();
   <script src="assets/js/jquery-3.7.1.min.js"></script>
   <script src="assets/vendor/datatables/js/dataTables.js"></script>
   <script src="assets/vendor/datatables/js/dataTables.bootstrap5.js"></script>
+  <script src="assets/vendor/datatables/js/plugins/natural.js"></script>
   <script src="assets/vendor/datatables/js/buttons/dataTables.buttons.min.js"></script>
   <script src="assets/vendor/datatables/js/buttons/buttons.bootstrap5.min.js"></script>
   <script src="assets/vendor/datatables/js/buttons/jszip.min.js"></script>
@@ -245,8 +257,8 @@ $conn->close();
   <script src="assets/js/main.js"></script>
   <script src="assets/js/script.js"></script>
   <script>
-    // Tabel Pengguna
-    $('#userTable').DataTable({
+    // Tabel Penyakit
+    $('#tabelPenyakit').DataTable({
       layout: {
         topStart: {
           buttons: [{
@@ -275,82 +287,118 @@ $conn->close();
             }
           ]
         }
-      }
+      },
+      columnDefs: [{
+          "className": "dt-left",
+          "targets": 2
+        }, // Mengatur kolom ketiga (Deskripsi) agar left-aligned
+        {
+          "type": "natural",
+          "targets": 0
+        } // Menggunakan natural sort untuk kolom ID Penyakit (indeks 0)
+      ],
+      order: [
+        [0, 'asc']
+      ],
+      pageLength: 20
     });
 
-    // Tombol Tambah Pengguna
-    document.getElementById('tambahUser').addEventListener('click', function() {
-      var tambahUserModal = new bootstrap.Modal(document.getElementById('tambahUserModal'), {
+    // Tombol Tambah Penyakit
+    document.getElementById('tambahPenyakit').addEventListener('click', function() {
+      var tambahUserModal = new bootstrap.Modal(document.getElementById('tambahPemyakitModal'), {
         keyboard: false
       });
       tambahUserModal.show();
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
-      var userIdToDelete;
+    // Reset form saat modal ditutup
+    $('#tambahPenyakitModal').on('hidden.bs.modal', function() {
+      $('#tambahPenyakitForm')[0].reset();
+    });
 
-      document.querySelectorAll('.hapusUser').forEach(function(button) {
+    document.addEventListener('DOMContentLoaded', function() {
+      // Edit Penyakit
+      document.querySelectorAll('.editPenyakit').forEach(function(button) {
         button.addEventListener('click', function() {
-          userIdToDelete = this.getAttribute('data-id');
-          var deleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
+          var penyakitId = this.getAttribute('data-id');
+
+          fetch('getPenyakitById.php?idPenyakit=' + penyakitId)
+            .then(response => response.json())
+            .then(data => {
+              // Mengisi nilai formulir modal dengan data penyakit yang didapatkan
+              document.getElementById('editPenyakitId').value = data.idPenyakit;
+              document.getElementById('editNama').value = data.nama;
+              document.getElementById('editDeskripsi').value = data.deskripsi;
+
+              // Menampilkan modal edit
+              var editModal = new bootstrap.Modal(document.getElementById('editPenyakitModal'));
+              editModal.show();
+            })
+            .catch(error => {
+              console.error('Error fetching penyakit details:', error);
+              alert('Terjadi kesalahan saat mengambil detail penyakit.');
+            });
+        });
+      });
+
+      // Edit Penyakit - Simpan Perubahan
+      document.getElementById('saveChangesBtn').addEventListener('click', function(event) {
+        event.preventDefault();
+
+        var editFormData = new FormData(document.getElementById('editPenyakitForm'));
+
+        fetch('editPenyakit.php', {
+            method: 'POST',
+            body: editFormData
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.status === 'success') {
+              alert('Perubahan penyakit berhasil disimpan.');
+              location.reload();
+            } else {
+              alert('Gagal menyimpan perubahan penyakit: ' + data.message);
+            }
+          })
+          .catch(error => {
+            alert('Terjadi kesalahan: ' + error.message);
+          });
+      });
+
+      // Hapus Penyakit - Modal Hapus
+      var penyakitIdToDelete;
+
+      document.querySelectorAll('.hapusPenyakit').forEach(function(button) {
+        button.addEventListener('click', function() {
+          penyakitIdToDelete = this.getAttribute('data-id');
+          var deleteModal = new bootstrap.Modal(document.getElementById('confirmDeletePenyakitModal'));
           deleteModal.show();
         });
       });
 
       // Event listener untuk tombol konfirmasi hapus
-      document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
-        if (userIdToDelete) {
+      document.getElementById('confirmDeletePenyakitBtn').addEventListener('click', function() {
+        if (penyakitIdToDelete) {
           // Kirim permintaan hapus ke server
-          fetch('hapusUser.php', {
+          fetch('hapusPenyakit.php', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
               },
-              body: 'idUser=' + userIdToDelete
+              body: 'idPenyakit=' + penyakitIdToDelete
             })
             .then(response => response.json())
             .then(data => {
               if (data.status === 'success') {
-                alert('Pengguna berhasil dihapus.');
-                // Reload halaman setelah berhasil menghapus pengguna
+                alert('Penyakit berhasil dihapus.');
+                // Reload halaman setelah berhasil menghapus penyakit
                 location.reload();
               } else {
-                alert('Gagal menghapus pengguna: ' + data.message);
+                alert('Gagal menghapus penyakit: ' + data.message);
               }
             })
             .catch(error => {
               alert('Terjadi kesalahan: ' + error.message);
-            });
-        }
-      });
-
-      // Cek email saat tambah user
-      const emailInput = document.getElementById('email');
-      const emailFeedback = document.getElementById('emailFeedback');
-      const submitButton = document.querySelector('#tambahUserForm button[type="submit"]');
-
-      emailInput.addEventListener('blur', function() {
-        const email = emailInput.value;
-
-        if (email) {
-          fetch('cekEmail.php', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-              },
-              body: 'email=' + encodeURIComponent(email)
-            })
-            .then(response => response.json())
-            .then(data => {
-              if (data.exists) {
-                emailInput.classList.add('is-invalid');
-                emailFeedback.style.display = 'block';
-                submitButton.disabled = true;
-              } else {
-                emailInput.classList.remove('is-invalid');
-                emailFeedback.style.display = 'none';
-                submitButton.disabled = false;
-              }
             });
         }
       });

@@ -263,7 +263,31 @@ $conn->close();
     $('#tabelGejala').DataTable({
       layout: {
         topStart: {
-          buttons: ['copy', 'excel', 'pdf', 'print']
+          buttons: [{
+              extend: 'copy',
+              exportOptions: {
+                columns: ':not(:eq(3))'
+              }
+            },
+            {
+              extend: 'excel',
+              exportOptions: {
+                columns: ':not(:eq(3))'
+              }
+            },
+            {
+              extend: 'pdf',
+              exportOptions: {
+                columns: ':not(:eq(3))'
+              }
+            },
+            {
+              extend: 'print',
+              exportOptions: {
+                columns: ':not(:eq(3))'
+              }
+            }
+          ]
         }
       },
       columnDefs: [{
