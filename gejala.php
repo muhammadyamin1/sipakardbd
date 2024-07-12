@@ -104,7 +104,7 @@ $conn->close();
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Gejala Demam Berdarah Dengue</h5>
-              <button id="tambahGejala" class="btn btn-primary btn-sm mb-4" data-bs-toggle="modal" data-bs-target="#tambahGejalaModal"><i class="bi bi-person-plus"></i> Tambah Gejala</button>
+              <button id="tambahGejala" class="btn btn-primary btn-sm mb-4" data-bs-toggle="modal" data-bs-target="#tambahGejalaModal"><i class="bi bi-plus-circle"></i> Tambah Gejala</button>
               <div class="table-responsive">
                 <table id="tabelGejala" class="table" style="width:100%">
                   <thead>
