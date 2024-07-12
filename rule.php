@@ -103,7 +103,7 @@ if (isset($_SESSION['nama']) && isset($_SESSION['role']) && $_SESSION['role'] ==
                                         <tr>
                                             <th class="dt-left">ID Rule</th>
                                             <th>Gejala Terpilih</th>
-                                            <th>ID Penyakit</th>
+                                            <th>Kategori Penyakit</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -142,7 +142,7 @@ if (isset($_SESSION['nama']) && isset($_SESSION['role']) && $_SESSION['role'] ==
                 <div class="modal-body">
                     <form id="tambahRuleForm" method="post" action="tambahRuleBaru.php">
                         <div class="mb-3">
-                        <label for="idRule" class="form-label">ID Rule</label>
+                            <label for="idRule" class="form-label">ID Rule</label>
                             <div class="input-group">
                                 <span class="input-group-text" id="idRulePrefix">R</span>
                                 <input type="number" class="form-control" id="idRule" name="idRule" required>
@@ -159,35 +159,6 @@ if (isset($_SESSION['nama']) && isset($_SESSION['role']) && $_SESSION['role'] ==
                             <div id="penyakitRadioContainer"></div>
                         </div>
                         <button type="submit" class="btn btn-primary">Tambah Rule</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal Edit Rule -->
-    <div class="modal fade" id="editRuleModal" tabindex="-1" aria-labelledby="editRuleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editRuleModalLabel">Edit Rule</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="editRuleForm" method="post" action="editRule.php">
-                        <div class="mb-3">
-                            <label for="editRuleId" class="form-label">ID Rule</label>
-                            <input type="text" class="form-control" id="editRuleId" name="idRule" readonly>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Gejala Terpilih</label>
-                            <div id="editGejalaCheckboxContainer"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Penyakit</label>
-                            <div id="editPenyakitRadioContainer"></div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                     </form>
                 </div>
             </div>
@@ -247,12 +218,11 @@ if (isset($_SESSION['nama']) && isset($_SESSION['role']) && $_SESSION['role'] ==
                         "data": "gejalaTerpilih"
                     },
                     {
-                        "data": "idPenyakit"
+                        "data": "nama"
                     },
                     {
                         "data": null,
                         "defaultContent": `
-                            <button class="btn btn-sm btn-primary editRule" data-bs-toggle="modal" data-bs-target="#editRuleModal">Edit</button>
                             <button class="btn btn-sm btn-danger hapusRule" data-bs-toggle="modal" data-bs-target="#confirmDeleteRuleModal">Hapus</button>
                         `
                     }

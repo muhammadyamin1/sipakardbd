@@ -8,7 +8,7 @@ if (!isset($_SESSION['nama']) || !isset($_SESSION['role']) || $_SESSION['role'] 
     exit();
 }
 
-$sql = "SELECT idRule, gejalaTerpilih, idPenyakit FROM tb_rule";
+$sql = "SELECT r.idRule, r.gejalaTerpilih, p.nama FROM tb_rule r INNER JOIN tb_penyakit p ON r.idPenyakit = p.idPenyakit;";
 $result = $conn->query($sql);
 
 $rules = [];
