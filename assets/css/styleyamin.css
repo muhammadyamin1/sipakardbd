@@ -1,9 +1,15 @@
+/*--------------------------------------------------------------
+# Ganti Background Login
+--------------------------------------------------------------*/
 body#custom-background-login {
   background-image: url("../img/bgLogin.jpg");
   background-size: cover;
   background-position: center;
 }
 
+/*--------------------------------------------------------------
+# Alert yang mengapung di sebelah kanan selama 10 detik
+--------------------------------------------------------------*/
 .floating-alert {
   position: fixed;
   top: 20px;
@@ -46,10 +52,36 @@ body#custom-background-login {
   }
 }
 
+/*--------------------------------------------------------------
+# Menghapus Akun Sendiri / Pengguna Tertentu
+--------------------------------------------------------------*/
 .disabled-button {
   opacity: 0.65;
 }
 
+/*--------------------------------------------------------------
+# DataTables
+--------------------------------------------------------------*/
 .dt-left {
-  text-align: left!important;
+  text-align: left !important;
+}
+
+/*--------------------------------------------------------------
+# Form Diagnosis
+--------------------------------------------------------------*/
+.form-check {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 800px;
+  margin-bottom: 10px;
+}
+
+.form-check-label {
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
+.btn-info {
+  margin-left: 10px;
 }
