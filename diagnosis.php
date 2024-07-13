@@ -192,9 +192,7 @@ $conn->close();
                                         </div>
                                     </div>
                                 </div>
-                                <div class="text-center">
-                                <button type="button" class="btn btn-lg btn-primary mt-2" onclick="validateAndSubmit()">Lakukan Diagnosis</button>
-                                </div>
+                                <button type="button" class="btn btn-primary mt-2" onclick="validateAndSubmit()">Lakukan Diagnosis</button>
                             </form>
                             <div id="hasilDiagnosis" class="mt-5"></div>
                         </div>
@@ -349,8 +347,8 @@ $conn->close();
                 const gejalaRule = rule.gejalaTerpilih.split(',');
                 if (gejalaTerpilih.length === gejalaRule.length && gejalaRule.every(gr => gejalaTerpilih.includes(gr))) {
                     const penyakit = penyakitList[rule.idPenyakit];
-                    hasil += `<h4><strong>${penyakit.nama}</strong></h4>`;
-                    hasil += `<p>Deskripsi: ${penyakit.deskripsi}</p>`;
+                    hasil += `<div class="alert alert-info" role="alert"><h4><strong>${penyakit.nama}</strong></h4>`;
+                    hasil += `<p class="mb-1">Deskripsi: ${penyakit.deskripsi}</p></div>`;
                     foundPenyakit = true;
                 }
             });
