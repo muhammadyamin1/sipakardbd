@@ -315,11 +315,11 @@ $conn->close();
 
             // Lakukan diagnosa jika semua validasi berhasil
             if (namaPasienInput.checkValidity() && umurPasienInput.checkValidity()) {
-                diagnosis();
+                deteksiPenyakit();
             }
         }
 
-        function diagnosis() {
+        function deteksiPenyakit() {
             const namaPasien = document.getElementById('namaPasien').value;
             const umurPasien = document.getElementById('umurPasien').value;
             const checkboxes = document.querySelectorAll('.form-check-input');
@@ -342,13 +342,19 @@ $conn->close();
 
             let hasil = '<h3>Hasil Diagnosis:</h3>';
             let foundPenyakit = false;
+            let penyakitDitemukan = '';
 
             ruleList.forEach(rule => {
                 const gejalaRule = rule.gejalaTerpilih.split(',');
                 if (gejalaTerpilih.length === gejalaRule.length && gejalaRule.every(gr => gejalaTerpilih.includes(gr))) {
                     const penyakit = penyakitList[rule.idPenyakit];
-                    hasil += `<div class="alert alert-info" role="alert"><h4><strong>${penyakit.nama}</strong></h4>`;
-                    hasil += `<p class="mb-1">Deskripsi: ${penyakit.deskripsi}</p></div>`;
+                    hasil += `<div class="alert alert-info" role="alert"><h4 class="alert-heading">${penyakit.nama}</h4>`;
+                    hasil += `<p>Deskripsi: ${penyakit.deskripsi}</p><hr class="mb-0"></div>`;
+                    if (penyakit.deskripsi === '-') {
+                        penyakitDitemukan = penyakit.nama; // Hanya nama penyakit jika deskripsi '-' 
+                    } else {
+                        penyakitDitemukan = `${penyakit.nama} - ${penyakit.deskripsi}`; // Gabungan nama dan deskripsi
+                    }
                     foundPenyakit = true;
                 }
             });
@@ -358,6 +364,42 @@ $conn->close();
             }
 
             document.getElementById('hasilDiagnosis').innerHTML = hasil;
+
+            // Simpan diagnosis ke database
+            if (foundPenyakit) {
+                let gejalaTerpilihNama = [];
+                gejalaDescriptions.forEach(gejala => {
+                    if (gejalaTerpilih.includes(gejala.idGejala)) {
+                        gejalaTerpilihNama.push(gejala.nama);
+                    }
+                });
+                simpanDiagnosis(namaPasien, umurPasien, gejalaTerpilihNama.join(','), penyakitDitemukan);
+            }
+
+            function simpanDiagnosis(namaPasien, umurPasien, gejalaTerpilihNama, penyakit) {
+                fetch('simpanDiagnosis.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `namaPasien=${encodeURIComponent(namaPasien)}&umurPasien=${encodeURIComponent(umurPasien)}&gejalaTerpilih=${encodeURIComponent(gejalaTerpilihNama)}&penyakit=${encodeURIComponent(penyakit)}`
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            console.log('Diagnosis berhasil disimpan.');
+                            // Reset form atau elemen-elemen input
+                            document.getElementById('diagnosisForm').reset();
+                            document.getElementById('namaPasien').classList.remove('is-valid', 'is-invalid');
+                            document.getElementById('umurPasien').classList.remove('is-valid', 'is-invalid');
+                        } else {
+                            console.error('Gagal menyimpan diagnosis: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Terjadi kesalahan: ' + error.message);
+                    });
+            }
         }
     </script>
 

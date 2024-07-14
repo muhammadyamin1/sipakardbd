@@ -398,6 +398,7 @@ $conn->close();
               }
             })
             .catch(error => {
+              console.error('Error:', error);
               alert('Terjadi kesalahan: ' + error.message);
             });
         }
