@@ -10,7 +10,6 @@ if (isset($_SESSION['nama']) && isset($_SESSION['role']) && $_SESSION['role'] ==
   exit();
 }
 
-// Mengambil data dari tb_user
 include 'dbKoneksi.php';
 
 $sql = "SELECT idPenyakit, nama, deskripsi FROM tb_penyakit";
