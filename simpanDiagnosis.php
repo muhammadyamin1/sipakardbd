@@ -8,6 +8,8 @@ if (!isset($_SESSION['nama']) || !isset($_SESSION['role'])) {
     exit();
 }
 
+date_default_timezone_set('Asia/Jakarta');
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $namaPasien = $_POST['namaPasien'];
     $umurPasien = $_POST['umurPasien'];
