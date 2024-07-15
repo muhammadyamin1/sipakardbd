@@ -130,8 +130,6 @@ function formatTanggalIndonesia($tanggal)
                       echo '<td class="text-center"><button class="btn btn-sm btn-primary" onclick="cetakLaporan(\'' . $row['idDiagnosis'] . '\')">Cetak Laporan</button></td>';
                       echo "</tr>";
                     }
-                  } else {
-                    echo "<tr><td colspan='5'>Tidak ada data diagnosis.</td></tr>";
                   }
                   ?>
                 </tbody>

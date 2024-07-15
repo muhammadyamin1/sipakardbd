@@ -132,10 +132,6 @@ $conn->close();
                           </td>
                         </tr>
                       <?php endwhile; ?>
-                    <?php else : ?>
-                      <tr>
-                        <td colspan="4">Tidak ada data.</td>
-                      </tr>
                     <?php endif; ?>
                   </tbody>
                 </table>
