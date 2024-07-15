@@ -139,7 +139,7 @@ $pdf->Cell(0, 10, '2. Umur: ' . $diagnosis['umur'].' Tahun', 0, 1);
 $pdf->Cell(0, 10, '3. Gejala Terpilih: ', 0, 1);
 
 foreach ($gejalaTerpilih as $gejala) {
-    $pdf->Cell(20, 5, '#', 0, 0, 'C', false);
+    $pdf->Cell(10, 5, '#', 0, 0, 'C', false);
     $pdf->Cell(0, 5, $gejala, 0, 1);
 }
 

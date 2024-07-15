@@ -367,22 +367,22 @@ $conn->close();
 
             // Simpan diagnosis ke database
             if (foundPenyakit) {
-                let gejalaTerpilihNama = [];
+                let gejalaTerpilihIdNama = [];
                 gejalaDescriptions.forEach(gejala => {
                     if (gejalaTerpilih.includes(gejala.idGejala)) {
-                        gejalaTerpilihNama.push(gejala.nama);
+                        gejalaTerpilihIdNama.push(`${gejala.idGejala} - ${gejala.nama}`);
                     }
                 });
-                simpanDiagnosis(namaPasien, umurPasien, gejalaTerpilihNama.join(','), penyakitDitemukan);
+                simpanDiagnosis(namaPasien, umurPasien, gejalaTerpilihIdNama.join(','), penyakitDitemukan);
             }
 
-            function simpanDiagnosis(namaPasien, umurPasien, gejalaTerpilihNama, penyakit) {
+            function simpanDiagnosis(namaPasien, umurPasien, gejalaTerpilihIdNama, penyakit) {
                 fetch('simpanDiagnosis.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded',
                         },
-                        body: `namaPasien=${encodeURIComponent(namaPasien)}&umurPasien=${encodeURIComponent(umurPasien)}&gejalaTerpilih=${encodeURIComponent(gejalaTerpilihNama)}&penyakit=${encodeURIComponent(penyakit)}`
+                        body: `namaPasien=${encodeURIComponent(namaPasien)}&umurPasien=${encodeURIComponent(umurPasien)}&gejalaTerpilih=${encodeURIComponent(gejalaTerpilihIdNama)}&penyakit=${encodeURIComponent(penyakit)}`
                     })
                     .then(response => response.json())
                     .then(data => {

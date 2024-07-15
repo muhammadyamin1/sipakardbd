@@ -127,7 +127,12 @@ function formatTanggalIndonesia($tanggal)
                       echo "<td>" . htmlspecialchars($row['namaPasien']) . "</td>";
                       echo "<td>" . htmlspecialchars($row['penyakit']) . "</td>";
                       echo "<td class='text-center'>" . formatTanggalIndonesia($row['tanggal']) . "</td>";
-                      echo '<td class="text-center"><button class="btn btn-sm btn-primary" onclick="cetakLaporan(\'' . $row['idDiagnosis'] . '\')">Cetak Laporan</button></td>';
+                      echo "<td class='text-center'>";
+                      echo '<div class="btn-group" role="group">';
+                      echo '<button class="btn btn-sm btn-danger" onclick="hapusRiwayatDiagnosis(\'' . $row['idDiagnosis'] . '\')" data-bs-toggle="tooltip" data-bs-placement="top" title="Hapus"><i class="bi bi-trash"></i></button>';
+                      echo '<button class="btn btn-sm btn-primary" onclick="cetakLaporan(\'' . $row['idDiagnosis'] . '\')"><i class="bi bi-printer"></i> Cetak Laporan</button>';
+                      echo '</div>';
+                      echo "</td>";
                       echo "</tr>";
                     }
                   }
@@ -162,7 +167,6 @@ function formatTanggalIndonesia($tanggal)
   <script src="assets/js/jquery-3.7.1.min.js"></script>
   <script src="assets/vendor/datatables/js/dataTables.js"></script>
   <script src="assets/vendor/datatables/js/dataTables.bootstrap5.js"></script>
-  <script src="assets/vendor/datatables/js/plugins/natural.js"></script>
   <script src="assets/vendor/datatables/js/buttons/dataTables.buttons.min.js"></script>
   <script src="assets/vendor/datatables/js/buttons/buttons.bootstrap5.min.js"></script>
   <script src="assets/vendor/datatables/js/buttons/jszip.min.js"></script>
@@ -213,18 +217,57 @@ function formatTanggalIndonesia($tanggal)
           "targets": 2
         }, // Mengatur kolom ketiga (Deskripsi) agar left-aligned
         {
-          "type": "natural",
-          "targets": 0
-        } // Menggunakan natural sort untuk kolom ID Gejala (indeks 0)
+          targets: 3,
+          render: function(data, type, row, meta) {
+            // Ubah format tanggal dari dd-mm-yyyy ke yyyy-mm-dd
+            var dateParts = data.split('-');
+            return dateParts[2] + '-' + dateParts[1] + '-' + dateParts[0];
+          }
+        }
       ],
       order: [
         [3, 'desc']
-      ]
+      ],
+      rowCallback: function(row, data, index) {
+        $('td:eq(0)', row).html(index + 1);
+      },
+      drawCallback: function(settings) {
+        var api = this.api();
+        api.column(0, {
+          order: 'applied'
+        }).nodes().each(function(cell, i) {
+          cell.innerHTML = i + 1;
+        });
+      }
     });
 
     function cetakLaporan(idDiagnosis) {
       var url = 'cetakLaporan.php?idDiagnosis=' + idDiagnosis;
       window.open(url, '_blank');
+    }
+
+    function hapusRiwayatDiagnosis(idDiagnosis) {
+      if (confirm("Anda yakin ingin menghapus laporan ini?")) {
+        fetch('hapusRiwayatDiagnosis.php', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `idDiagnosis=${encodeURIComponent(idDiagnosis)}`
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.status === 'success') {
+              alert('Laporan berhasil dihapus.');
+              location.reload();
+            } else {
+              alert('Gagal menghapus laporan: ' + data.message);
+            }
+          })
+          .catch(error => {
+            alert('Terjadi kesalahan: ' + error.message);
+          });
+      }
     }
   </script>
 
