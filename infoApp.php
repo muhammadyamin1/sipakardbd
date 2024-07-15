@@ -98,14 +98,22 @@ include 'dbKoneksi.php';
           <div class="card">
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-              <img src="assets/img/nyamuk-1.jpg" alt="Profile" class="rounded-circle">
-              <h2>Kevin Anderson</h2>
-              <h3>Web Designer</h3>
+              <img src="assets/img/dokter.jpg" alt="Profile" class="rounded-circle">
+              <h2>dr. Ananda Rahmat Putra, M.Ked (PD), Sp.PD</h2>
+              <h3>Dokter Spesialis Penyakit Dalam</h3>
               <div class="social-links mt-2">
-                <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-                <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-                <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-                <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                <a href="https://www.alodokter.com/cari-dokter/dr-ananda-rahmat-putra-mked-pd-sppd" target="_blank" class="twitter"></i> Alodokter</a>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+
+              <img src="assets/img/me.jpg" alt="Profile" class="rounded-circle">
+              <h2>M. Yamin</h2>
+              <h3 class="text-center">Mahasiswa Tingkat Akhir STMIK Pelita Nusantara</h3>
+              <div class="social-links mt-2">
+                <a href="https://www.linkedin.com/in/muhammadyamin1" target="_blank" class="linkedin"><i class="bi bi-linkedin"></i> LinkedIn</a>
               </div>
             </div>
           </div>
@@ -120,8 +128,7 @@ include 'dbKoneksi.php';
               <ul class="nav nav-tabs nav-tabs-bordered">
 
                 <li class="nav-item">
-                  <button class="nav-link active" data-bs-toggle="tab"
-                    data-bs-target="#profile-overview">Overview</button>
+                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
                 </li>
 
               </ul>
@@ -129,9 +136,14 @@ include 'dbKoneksi.php';
 
                 <div class="tab-pane fade show active profile-overview" id="profile-overview">
                   <h5 class="card-title">Tentang</h5>
-                  <p>Aplikasi Sistem Pakar untuk deteksi dini penyakit Demam Berdarah Dengue (DBD) ini dibangun dengan menggunakan metode Rule Based Reasoning, sebuah pendekatan yang mengandalkan aturan-aturan logis untuk menganalisis gejala dan mendiagnosis penyakit. Proyek ini diperkuat dengan penelitian yang mendalam serta kerjasama erat dengan perawat dan dokter dari Rumah Sakit Umum Bandung.</p>
-                  <p>Saya ingin mengucapkan terima kasih kepada para pakar ataupun ahli medis yang telah berperan aktif dalam pengembangan aplikasi ini, termasuk Dr. Ananda Rahmat Putra, seorang spesialis penyakit dalam dengan berbagai pengalaman di bidangnya, serta Dr. Tjoet Arida dan tim perawat yang telah memberikan waktunya untuk memvalidasi dan menyempurnakan aplikasi ini.</p>
-                  <p>Melalui aplikasi ini, saya berharap dapat memberikan kontribusi positif dalam pelayanan kesehatan masyarakat, terutama dalam mendukung upaya pencegahan dan pengobatan dini terhadap DBD. Dengan semangat kolaboratif antara akademisi, praktisi medis, dan pengembang teknologi, saya juga berharap aplikasi ini tidak hanya menjadi bagian dari pembelajaran akademik, tetapi juga sebuah alat yang bermanfaat dalam kehidupan nyata untuk meningkatkan kualitas layanan kesehatan di masyarakat.</p>
+                  <img src="assets/img/sistem-pakar.png" alt="Sistem Pakar" title="Cara Kerja Sistem Pakar" width="100%">
+                  <p align="justify">Aplikasi Sistem Pakar deteksi dini penyakit Demam Berdarah Dengue ini dibangun dengan menggunakan metode Rule Based Reasoning, sebuah pendekatan yang mengandalkan aturan-aturan logis untuk menganalisis gejala dan mendiagnosis penyakit. Proyek ini diperkuat dengan penelitian yang mendalam serta kerjasama erat saya sebagai mahasiswa dengan dokter dan perawat yang bertugas di Rumah Sakit Umum Bandung.</p>
+                  <p>
+                    <a href="assets/pdf/Data Riset RSU. Bandung.pdf" target="_blank">Lihat Data Riset</a><br>
+                    <a href="assets/pdf/Surat Balasan Riset RSU. Bandung.pdf" target="_blank">Lihat Surat Balasan Riset</a>
+                  </p>
+                  <p align="justify">Saya ingin mengucapkan terima kasih kepada para pakar ataupun ahli medis yang telah berperan aktif dalam pengembangan aplikasi ini, termasuk dr. Ananda Rahmat Putra, Sp.PD, seorang spesialis penyakit dalam dengan berbagai pengalaman di bidangnya, serta dr. Tjoet Arida dan tim perawat seperti ibu Wiwik, A.Md yang telah memberikan waktunya untuk memvalidasi dan menyempurnakan aplikasi ini.</p>
+                  <p align="justify">Melalui aplikasi ini, saya berharap dapat memberikan kontribusi positif dalam pelayanan kesehatan masyarakat, terutama dalam mendukung upaya pencegahan dan pengobatan dini terhadap DBD. Dengan semangat kolaboratif antara akademisi, praktisi medis, dan pengembang teknologi, saya juga berharap aplikasi ini tidak hanya menjadi bagian dari pembelajaran akademik, tetapi juga sebuah alat yang bermanfaat dalam kehidupan nyata untuk meningkatkan kualitas layanan kesehatan di masyarakat.</p>
 
                   <h5 class="card-title">Spesifikasi Sistem Yang Disarankan</h5>
 
@@ -174,195 +186,6 @@ include 'dbKoneksi.php';
                     <div class="col-lg-3 col-md-4 label">Bundling</div>
                     <div class="col-lg-9 col-md-8">xampp-windows-x64-8.2.12-0-VS16</div>
                   </div>
-
-                </div>
-
-                <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
-
-                  <!-- Profile Edit Form -->
-                  <form>
-                    <div class="row mb-3">
-                      <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
-                      <div class="col-md-8 col-lg-9">
-                        <img src="assets/img/profile-img.jpg" alt="Profile">
-                        <div class="pt-2">
-                          <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i
-                              class="bi bi-upload"></i></a>
-                          <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i
-                              class="bi bi-trash"></i></a>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="fullName" type="text" class="form-control" id="fullName" value="Kevin Anderson">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
-                      <div class="col-md-8 col-lg-9">
-                        <textarea name="about" class="form-control" id="about"
-                          style="height: 100px">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</textarea>
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="company" class="col-md-4 col-lg-3 col-form-label">Company</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="company" type="text" class="form-control" id="company"
-                          value="Lueilwitz, Wisoky and Leuschke">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Job" class="col-md-4 col-lg-3 col-form-label">Job</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="job" type="text" class="form-control" id="Job" value="Web Designer">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Country" class="col-md-4 col-lg-3 col-form-label">Country</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="country" type="text" class="form-control" id="Country" value="USA">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="address" type="text" class="form-control" id="Address"
-                          value="A108 Adam Street, New York, NY 535022">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="phone" type="text" class="form-control" id="Phone" value="(436) 486-3538 x29071">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="email" type="email" class="form-control" id="Email" value="k.anderson@example.com">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Twitter Profile</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="twitter" type="text" class="form-control" id="Twitter"
-                          value="https://twitter.com/#">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Facebook Profile</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="facebook" type="text" class="form-control" id="Facebook"
-                          value="https://facebook.com/#">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram Profile</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="instagram" type="text" class="form-control" id="Instagram"
-                          value="https://instagram.com/#">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin Profile</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="linkedin" type="text" class="form-control" id="Linkedin"
-                          value="https://linkedin.com/#">
-                      </div>
-                    </div>
-
-                    <div class="text-center">
-                      <button type="submit" class="btn btn-primary">Save Changes</button>
-                    </div>
-                  </form><!-- End Profile Edit Form -->
-
-                </div>
-
-                <div class="tab-pane fade pt-3" id="profile-settings">
-
-                  <!-- Settings Form -->
-                  <form>
-
-                    <div class="row mb-3">
-                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Email Notifications</label>
-                      <div class="col-md-8 col-lg-9">
-                        <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="changesMade" checked>
-                          <label class="form-check-label" for="changesMade">
-                            Changes made to your account
-                          </label>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="newProducts" checked>
-                          <label class="form-check-label" for="newProducts">
-                            Information on new products and services
-                          </label>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="proOffers">
-                          <label class="form-check-label" for="proOffers">
-                            Marketing and promo offers
-                          </label>
-                        </div>
-                        <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="securityNotify" checked disabled>
-                          <label class="form-check-label" for="securityNotify">
-                            Security alerts
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="text-center">
-                      <button type="submit" class="btn btn-primary">Save Changes</button>
-                    </div>
-                  </form><!-- End settings Form -->
-
-                </div>
-
-                <div class="tab-pane fade pt-3" id="profile-change-password">
-                  <!-- Change Password Form -->
-                  <form>
-
-                    <div class="row mb-3">
-                      <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="password" type="password" class="form-control" id="currentPassword">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="newpassword" type="password" class="form-control" id="newPassword">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="renewpassword" type="password" class="form-control" id="renewPassword">
-                      </div>
-                    </div>
-
-                    <div class="text-center">
-                      <button type="submit" class="btn btn-primary">Change Password</button>
-                    </div>
-                  </form><!-- End Change Password Form -->
 
                 </div>
 
