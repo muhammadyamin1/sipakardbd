@@ -35,7 +35,11 @@
         </li>
 
         <li>
-          <a class="dropdown-item d-flex align-items-center" href="editUserForm.php?id=<?php echo $idUserAktif; ?>">
+          <form id="editProfileForm" action="editUserForm.php" method="post" class="d-none">
+            <input type="hidden" name="edit">
+            <input type="hidden" name="idUser" value="<?php echo $idUserAktif; ?>">
+          </form>
+          <a class="dropdown-item d-flex align-items-center" href="#" onclick="document.getElementById('editProfileForm').submit();">
             <i class="bi bi-person"></i>
             <span>Kelola Profil Saya</span>
           </a>

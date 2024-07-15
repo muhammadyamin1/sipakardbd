@@ -9,6 +9,23 @@ if (isset($_SESSION['nama']) && isset($_SESSION['role'])) {
   header("Location: index.php?pesan=belum-login");
   exit();
 }
+
+include 'dbKoneksi.php';
+
+// Total diagnosis keseluruhan
+$sqlTotalDiagnosis = "SELECT COUNT(*) as total FROM tb_diagnosis";
+$resultTotalDiagnosis = $conn->query($sqlTotalDiagnosis);
+$totalDiagnosis = $resultTotalDiagnosis->fetch_assoc()['total'];
+
+// Diagnosis hari ini
+$sqlDiagnosisHariIni = "SELECT COUNT(*) as total FROM tb_diagnosis WHERE DATE(tanggal) = CURDATE()";
+$resultDiagnosisHariIni = $conn->query($sqlDiagnosisHariIni);
+$diagnosisHariIni = $resultDiagnosisHariIni->fetch_assoc()['total'];
+
+// Total rules
+$sqlTotalRules = "SELECT COUNT(*) as total FROM tb_rule";
+$resultTotalRules = $conn->query($sqlTotalRules);
+$totalRules = $resultTotalRules->fetch_assoc()['total'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,7 +85,7 @@ if (isset($_SESSION['nama']) && isset($_SESSION['role'])) {
       </nav>
     </div><!-- End Page Title -->
 
-    <section class="section">
+    <section class="section dashboard">
       <?php
       if (isset($_SESSION['login_success']) && $_SESSION['login_success']) {
         echo '
@@ -124,6 +141,65 @@ if (isset($_SESSION['nama']) && isset($_SESSION['role'])) {
           </div>
 
         </div>
+
+        <div class="col-lg-4">
+          <div class="card info-card revenue-card">
+
+            <div class="card-body">
+              <h5 class="card-title">Total Diagnosis <span>| Keseluruhan</span></h5>
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-clipboard-check"></i>
+                </div>
+                <div class="ps-3">
+                  <h6><?php echo $totalDiagnosis; ?></h6>
+                  <span class="text-success small pt-1 fw-bold">Pasien</span>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card info-card sales-card">
+
+            <div class="card-body">
+              <h5 class="card-title">Diagnosis <span>| Hari Ini</span></h5>
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-clipboard-plus"></i>
+                </div>
+                <div class="ps-3">
+                  <h6><?php echo $diagnosisHariIni; ?></h6>
+                  <span class="text-success small pt-1 fw-bold">Pasien</span>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card info-card customers-card">
+
+            <div class="card-body">
+              <h5 class="card-title">Rule <span>| Mesin Inferensi</span></h5>
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class="bi bi-cpu"></i>
+                </div>
+                <div class="ps-3">
+                  <h6><?php echo $totalRules; ?></h6>
+                  <span class="text-success small pt-1 fw-bold">Rule</span>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
       </div>
     </section>
 

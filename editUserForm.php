@@ -12,16 +12,23 @@ if (isset($_SESSION['nama']) && isset($_SESSION['role'])) {
 
 include 'dbKoneksi.php';
 
-$idUser = $_GET['id'];
-$sql = "SELECT * FROM tb_user WHERE idUser = '$idUser'";
-$result = $conn->query($sql);
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['edit'])) {
+    $idUser = $_POST['idUser'];
+    $sql = "SELECT * FROM tb_user WHERE idUser = '$idUser'";
+    $result = $conn->query($sql);
 
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-} else {
-    echo "Data tidak ditemukan.";
-    exit;
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+    } else {
+        echo "Data tidak ditemukan.";
+        exit;
+    }
 }
+
+$vidUser = isset($_SESSION['editUserFormValues']['nama']) ? $_SESSION['editUserFormValues']['idUser'] : '';
+$vnama = isset($_SESSION['editUserFormValues']['nama']) ? $_SESSION['editUserFormValues']['nama'] : '';
+$vemail = isset($_SESSION['editUserFormValues']['email']) ? $_SESSION['editUserFormValues']['email'] : '';
+$vrole = isset($_SESSION['editUserFormValues']['role']) ? $_SESSION['editUserFormValues']['role'] : '';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -105,34 +112,66 @@ if ($result->num_rows > 0) {
                     <?php endif; ?>
 
                     <form action="editUser.php" method="post">
-                        <input type="hidden" name="idUser" value="<?php echo $row['idUser']; ?>">
-                        <div class="mb-3">
-                            <label for="nama" class="form-label">Nama</label>
-                            <input type="text" class="form-control" id="nama" name="nama" value="<?php echo $row['nama']; ?>" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" value="<?php echo $row['email']; ?>" required>
-                        </div>
-                        <?php if ($row['idUser'] == '14') : ?>
-                            <input type="hidden" name="role" value="admin">
+                        <?php if (isset($_SESSION['editUserFormValues'])) : ?>
+                            <input type="hidden" name="idUser" value="<?php echo htmlspecialchars($vidUser); ?>">
+                            <div class="mb-3">
+                                <label for="nama" class="form-label">Nama</label>
+                                <input type="text" class="form-control" id="nama" name="nama" value="<?php echo htmlspecialchars($vnama); ?>" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($vemail); ?>" required>
+                            </div>
+                            <?php if (htmlspecialchars($vidUser) == '14') : ?>
+                                <input type="hidden" name="role" value="admin">
+                            <?php else : ?>
+                                <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') { ?>
+                                    <div class="mb-3">
+                                        <label for="role" class="form-label">Role</label>
+                                        <select class="form-control" id="role" name="role" required>
+                                            <option value="admin" <?php if (htmlspecialchars($vrole) == 'admin') echo 'selected'; ?>>Admin</option>
+                                            <option value="user" <?php if (htmlspecialchars($vrole) == 'user') echo 'selected'; ?>>User</option>
+                                        </select>
+                                    </div>
+                                <?php } else { ?>
+                                    <div class="mb-3">
+                                        <label for="role" class="form-label">Role</label>
+                                        <select class="form-control" id="role" name="role" required>
+                                            <option value="user" selected>User</option>
+                                        </select>
+                                    </div>
+                                <?php } ?>
+                            <?php endif; ?>
                         <?php else : ?>
-                            <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') { ?>
-                                <div class="mb-3">
-                                    <label for="role" class="form-label">Role</label>
-                                    <select class="form-control" id="role" name="role" required>
-                                        <option value="admin" <?php if ($row['role'] == 'admin') echo 'selected'; ?>>Admin</option>
-                                        <option value="user" <?php if ($row['role'] == 'user') echo 'selected'; ?>>User</option>
-                                    </select>
-                                </div>
-                            <?php } else { ?>
-                                <div class="mb-3">
-                                    <label for="role" class="form-label">Role</label>
-                                    <select class="form-control" id="role" name="role" required>
-                                        <option value="user" selected>User</option>
-                                    </select>
-                                </div>
-                            <?php } ?>
+                            <input type="hidden" name="idUser" value="<?php echo $row['idUser']; ?>">
+                            <div class="mb-3">
+                                <label for="nama" class="form-label">Nama</label>
+                                <input type="text" class="form-control" id="nama" name="nama" value="<?php echo $row['nama']; ?>" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" value="<?php echo $row['email']; ?>" required>
+                            </div>
+                            <?php if ($row['idUser'] == '14') : ?>
+                                <input type="hidden" name="role" value="admin">
+                            <?php else : ?>
+                                <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') { ?>
+                                    <div class="mb-3">
+                                        <label for="role" class="form-label">Role</label>
+                                        <select class="form-control" id="role" name="role" required>
+                                            <option value="admin" <?php if ($row['role'] == 'admin') echo 'selected'; ?>>Admin</option>
+                                            <option value="user" <?php if ($row['role'] == 'user') echo 'selected'; ?>>User</option>
+                                        </select>
+                                    </div>
+                                <?php } else { ?>
+                                    <div class="mb-3">
+                                        <label for="role" class="form-label">Role</label>
+                                        <select class="form-control" id="role" name="role" required>
+                                            <option value="user" selected>User</option>
+                                        </select>
+                                    </div>
+                                <?php } ?>
+                            <?php endif; ?>
                         <?php endif; ?>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password Baru</label>
@@ -144,7 +183,9 @@ if ($result->num_rows > 0) {
                         </div>
                         <div class="d-flex justify-content-between">
                             <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Simpan Perubahan</button>
-                            <a href="kelolaPengguna.php" class="btn btn-secondary float-end"><i class="bi bi-arrow-left"></i> Kembali</a>
+                            <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') : ?>
+                                <a href="kelolaPengguna.php" class="btn btn-secondary float-end"><i class="bi bi-arrow-left"></i> Kembali</a>
+                            <?php endif; ?>
                         </div>
                     </form>
 

@@ -123,12 +123,17 @@ $conn->close();
                           <td><?php echo $row['email']; ?></td>
                           <td><?php echo $row['role']; ?></td>
                           <td>
-                            <a href="editUserForm.php?id=<?php echo $row['idUser']; ?>" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i> Edit</a>
-                            <?php if ($row['idUser'] == $idUserAktif || $row['idUser'] == '14') : ?>
-                              <button class="btn btn-danger btn-sm disabled-button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Tidak dapat menghapus pengguna atau diri sendiri"><i class="bi bi-trash"></i> Hapus</button>
-                            <?php else : ?>
-                              <button class="btn btn-danger btn-sm hapusUser" data-id="<?php echo $row['idUser']; ?>"><i class="bi bi-trash"></i> Hapus</button>
-                            <?php endif; ?>
+                            <div class="btn-group" role="group">
+                              <form action="editUserForm.php" method="post">
+                                <input type="hidden" name="idUser" value="<?php echo $row['idUser']; ?>">
+                                <button type="submit" class="btn btn-primary btn-sm" name="edit"><i class="bi bi-pencil"></i> Edit</button>
+                              </form>
+                              <?php if ($row['idUser'] == $idUserAktif || $row['idUser'] == '14') : ?>
+                                <button class="btn btn-danger btn-sm disabled-button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Tidak dapat menghapus pengguna atau diri sendiri"><i class="bi bi-trash"></i> Hapus</button>
+                              <?php else : ?>
+                                <button class="btn btn-danger btn-sm hapusUser" data-id="<?php echo $row['idUser']; ?>"><i class="bi bi-trash"></i> Hapus</button>
+                              <?php endif; ?>
+                            </div>
                           </td>
                         </tr>
                       <?php endwhile; ?>

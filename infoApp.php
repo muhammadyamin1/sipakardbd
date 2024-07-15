@@ -137,7 +137,7 @@ include 'dbKoneksi.php';
                 <div class="tab-pane fade show active profile-overview" id="profile-overview">
                   <h5 class="card-title">Tentang</h5>
                   <img src="assets/img/sistem-pakar.png" alt="Sistem Pakar" title="Cara Kerja Sistem Pakar" width="100%">
-                  <p align="justify">Aplikasi Sistem Pakar deteksi dini penyakit Demam Berdarah Dengue ini dibangun dengan menggunakan metode Rule Based Reasoning, sebuah pendekatan yang mengandalkan aturan-aturan logis untuk menganalisis gejala dan mendiagnosis penyakit. Proyek ini diperkuat dengan penelitian yang mendalam serta kerjasama erat saya sebagai mahasiswa dengan dokter dan perawat yang bertugas di Rumah Sakit Umum Bandung.</p>
+                  <p align="justify">Aplikasi Sistem Pakar deteksi dini penyakit Demam Berdarah Dengue ini dibangun dengan menggunakan metode Rule Based Reasoning, sebuah pendekatan yang mengandalkan aturan-aturan logis untuk menganalisis gejala dan mendiagnosis penyakit. Proyek ini diperkuat dengan penelitian yang mendalam serta kerjasama erat antara saya sebagai mahasiswa dengan dokter dan perawat di Rumah Sakit Umum Bandung.</p>
                   <p>
                     <a href="assets/pdf/Data Riset RSU. Bandung.pdf" target="_blank">Lihat Data Riset</a><br>
                     <a href="assets/pdf/Surat Balasan Riset RSU. Bandung.pdf" target="_blank">Lihat Surat Balasan Riset</a>

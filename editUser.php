@@ -38,7 +38,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $sql = "UPDATE tb_user SET nama='$nama', email='$email', role='$role' WHERE idUser='$idUser'";
     } else {
       $_SESSION['error'] = "Password dan konfirmasi password tidak cocok.";
-      header("Location: editUserForm.php?id=$idUser");
+      $_SESSION['editUserFormValues'] = [
+        'idUser' => $idUser,
+        'nama' => $nama,
+        'email' => $email,
+        'role' => $role
+      ];
+      header("Location: editUserForm.php");
       exit();
     }
 
@@ -50,6 +56,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 
   $conn->close();
-  header("Location: editUserForm.php?id=$idUser");
+  $_SESSION['editUserFormValues'] = [
+    'idUser' => $idUser,
+    'nama' => $nama,
+    'email' => $email,
+    'role' => $role
+  ];
+  header("Location: editUserForm.php");
   exit();
 }
