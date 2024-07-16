@@ -1,0 +1,13 @@
+Cara install aplikasi sistem pakar deteksi dini penyakit demam berdarah dengue:
+1. Ekstrak terlebih dahulu sipakardbd.zip (boleh dimana saja)
+2. Cari file: xampp-windows-x64-8.2.12-0-VS16-installer.exe, klik 2 kali untuk install
+3. Masuk ke C:\xampp\htdocs, kemudian di dalam htdocs buat folder baru "sipakardbd"
+4. Masukkan semua file yang sudah di ekstrak ke folder "sipakardbd" yang baru saja dibuat
+5. Aktifkan Apache dan MySQL pada XAMPP Control Panel, cari XAMPP Control Panel di Search Windows
+6. Masuk ke browser (Chrome/Edge/Firefox) dan ketikkan alamat "localhost/phpmyadmin" pada address bar
+7. Buat Basis Data baru dengan nama sistem_pakar_dbd pada phpMyAdmin, lalu klik basis data tersebut di panel kiri
+8. Impor semua Basis Data dengan klik Tab Impor, Choose File, pilih Basis Data di folder database dengan nama "sistem_pakar_dbd.sql"
+9. Klik Impor di bagian paling Bawah dan tunggu beberapa saat sampai muncul checklist dari phpMyAdmin
+10. Tutup phpMyAdmin dan ketik "localhost/sipakardbd" pada address bar
+11. Jika muncul tampilan login, Selamat! Aplikasi Sistem Pakar Deteksi Dini Pennyakit Demam Berdarah Dengue berhasil berjalan secara local di komputer/pc anda.
+12. Jangan lupa untuk mengaktifkan kambali Apache dan MySQL pada XAMPP Control Panel setiap kali anda mematikan (shutdown) atau menyalakan ulang (restart) komputer/pc anda.
