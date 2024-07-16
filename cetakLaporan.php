@@ -165,10 +165,10 @@ foreach ($gejalaTerpilih as $gejala) {
 }
 
 $pdf->Cell(0, 20, 'Kategori Penyakit: ', 0, 1);
-$pdf->SetFont('helvetica', 'B', 12);
+$pdf->SetFont('helvetica', '', 12);
 $pdf->MultiCell(0, 10, $diagnosis['penyakit'], 0, 1);
-$pdf->SetFont('helvetica', 'I', 12);
-$pdf->Cell(0, 0, 'Tanggal Diagnosis: ' . date('d-m-Y', strtotime($diagnosis['tanggal'])), 0, 1); // Tanggal dalam format dd-mm-yyyy
+$pdf->SetFont('helvetica', 'I', 10);
+$pdf->Cell(0, 9, 'Tanggal Diagnosis: ' . date('d-m-Y', strtotime($diagnosis['tanggal'])), 0, 1); // Tanggal dalam format dd-mm-yyyy
 
 // ---------------------------------------------------------
 

@@ -349,21 +349,37 @@ $conn->close();
                 if (gejalaTerpilih.length === gejalaRule.length && gejalaRule.every(gr => gejalaTerpilih.includes(gr))) {
                     const penyakit = penyakitList[rule.idPenyakit];
                     hasil += `<div class="alert alert-info" role="alert"><h4 class="alert-heading">${penyakit.nama}</h4>`;
-                    hasil += `<p>Deskripsi: ${penyakit.deskripsi}</p><hr class="mb-0"></div>`;
+                    hasil += `<p>Deskripsi: ${penyakit.deskripsi}</p></div>`;
                     if (penyakit.deskripsi === '-') {
                         penyakitDitemukan = penyakit.nama; // Hanya nama penyakit jika deskripsi '-' 
                     } else {
                         penyakitDitemukan = `${penyakit.nama} - ${penyakit.deskripsi}`; // Gabungan nama dan deskripsi
                     }
                     foundPenyakit = true;
+                    document.getElementById('hasilDiagnosis').innerHTML = hasil;
                 }
             });
 
             if (!foundPenyakit) {
                 hasil += '<p>Sistem tidak dapat menemukan pola gejala yang sesuai dengan kondisi yang ada.</p>';
-            }
+                document.getElementById('hasilDiagnosis').innerHTML = hasil;
+                // Mengatur hitung mundur hasil diagnosis jika tidak ditemukan
+                let countdownElement = document.createElement('p');
+                countdownElement.id = 'countdown';
+                countdownElement.innerHTML = 'Pesan ini akan dihapus dalam 10 detik.';
+                document.getElementById('hasilDiagnosis').appendChild(countdownElement);
 
-            document.getElementById('hasilDiagnosis').innerHTML = hasil;
+                let countdown = 10;
+                let countdownInterval = setInterval(function() {
+                    countdown--;
+                    countdownElement.innerHTML = `Pesan ini akan dihapus dalam ${countdown} detik.`;
+
+                    if (countdown <= 0) {
+                        clearInterval(countdownInterval);
+                        document.getElementById('hasilDiagnosis').innerHTML = '';
+                    }
+                }, 1000);
+            }
 
             // Simpan diagnosis ke database
             if (foundPenyakit) {
