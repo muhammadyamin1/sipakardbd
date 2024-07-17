@@ -107,38 +107,40 @@ function formatTanggalIndonesia($tanggal)
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Laporan Riwayat Diagnosis Penyakit Demam Berdarah Dengue</h5>
-              <table class="table table-bordered" id="tabelLaporan">
-                <thead>
-                  <tr>
-                    <th class="text-center">No</th>
-                    <th>Nama Pasien</th>
-                    <th>Riwayat Diagnosis</th>
-                    <th class="text-center">Tanggal</th>
-                    <th class="text-center">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php
-                  if ($result->num_rows > 0) {
-                    $no = 1;
-                    while ($row = $result->fetch_assoc()) {
-                      echo "<tr>";
-                      echo "<td class='text-center'>" . $no++ . "</td>";
-                      echo "<td>" . htmlspecialchars($row['namaPasien']) . "</td>";
-                      echo "<td>" . htmlspecialchars($row['penyakit']) . "</td>";
-                      echo "<td class='text-center'>" . formatTanggalIndonesia($row['tanggal']) . "</td>";
-                      echo "<td class='text-center'>";
-                      echo '<div class="btn-group" role="group">';
-                      echo '<button class="btn btn-sm btn-danger" onclick="hapusRiwayatDiagnosis(\'' . $row['idDiagnosis'] . '\')" data-bs-toggle="tooltip" data-bs-placement="top" title="Hapus"><i class="bi bi-trash"></i></button>';
-                      echo '<button class="btn btn-sm btn-primary" onclick="cetakLaporan(\'' . $row['idDiagnosis'] . '\')"><i class="bi bi-printer"></i> Cetak Laporan</button>';
-                      echo '</div>';
-                      echo "</td>";
-                      echo "</tr>";
+              <div class="table-responsive">
+                <table class="table table-bordered" id="tabelLaporan">
+                  <thead>
+                    <tr>
+                      <th class="text-center">No</th>
+                      <th>Nama Pasien</th>
+                      <th>Riwayat Diagnosis</th>
+                      <th class="text-center">Tanggal</th>
+                      <th class="text-center">Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php
+                    if ($result->num_rows > 0) {
+                      $no = 1;
+                      while ($row = $result->fetch_assoc()) {
+                        echo "<tr>";
+                        echo "<td class='text-center'>" . $no++ . "</td>";
+                        echo "<td>" . htmlspecialchars($row['namaPasien']) . "</td>";
+                        echo "<td>" . htmlspecialchars($row['penyakit']) . "</td>";
+                        echo "<td class='text-center'>" . formatTanggalIndonesia($row['tanggal']) . "</td>";
+                        echo "<td class='text-center'>";
+                        echo '<div class="btn-group" role="group">';
+                        echo '<button class="btn btn-sm btn-danger" onclick="hapusRiwayatDiagnosis(\'' . $row['idDiagnosis'] . '\')" data-bs-toggle="tooltip" data-bs-placement="top" title="Hapus"><i class="bi bi-trash"></i></button>';
+                        echo '<button class="btn btn-sm btn-primary" onclick="cetakLaporan(\'' . $row['idDiagnosis'] . '\')"><i class="bi bi-printer"></i> Cetak Laporan</button>';
+                        echo '</div>';
+                        echo "</td>";
+                        echo "</tr>";
+                      }
                     }
-                  }
-                  ?>
-                </tbody>
-              </table>
+                    ?>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
 
