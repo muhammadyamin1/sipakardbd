@@ -333,6 +333,7 @@ $conn->close();
                     isValid = true;
                 }
             });
+            console.log('Gejala Terpilih: ' + gejalaTerpilih);
 
             // Jika tidak ada gejala yang dipilih, tampilkan alert dan hentikan eksekusi fungsi
             if (!isValid) {
@@ -347,6 +348,8 @@ $conn->close();
             ruleList.forEach(rule => {
                 const gejalaRule = rule.gejalaTerpilih.split(',');
                 if (gejalaTerpilih.length === gejalaRule.length && gejalaRule.every(gr => gejalaTerpilih.includes(gr))) {
+                    console.log('Gejala Rule: ' + gejalaRule);
+                    console.log('%cKategori Penyakit Ditemukan.', 'color: green;');
                     const penyakit = penyakitList[rule.idPenyakit];
                     hasil += `<div class="alert alert-info" role="alert"><h4 class="alert-heading">${penyakit.nama}</h4>`;
                     hasil += `<p>Deskripsi: ${penyakit.deskripsi}</p></div>`;
@@ -361,6 +364,7 @@ $conn->close();
             });
 
             if (!foundPenyakit) {
+                console.log('%cGejala tidak cocok dengan mesin inferensi.', 'color: red;');
                 hasil += '<p>Sistem tidak dapat menemukan pola gejala yang sesuai dengan kondisi yang ada.</p>';
                 document.getElementById('hasilDiagnosis').innerHTML = hasil;
                 // Mengatur hitung mundur hasil diagnosis jika tidak ditemukan
