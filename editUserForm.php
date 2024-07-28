@@ -113,64 +113,84 @@ $vrole = isset($_SESSION['editUserFormValues']['role']) ? $_SESSION['editUserFor
 
                     <form action="editUser.php" method="post">
                         <?php if (isset($_SESSION['editUserFormValues'])) : ?>
-                            <input type="hidden" name="idUser" value="<?php echo htmlspecialchars($vidUser); ?>">
-                            <div class="mb-3">
-                                <label for="nama" class="form-label">Nama</label>
-                                <input type="text" class="form-control" id="nama" name="nama" value="<?php echo htmlspecialchars($vnama); ?>" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($vemail); ?>" required>
-                            </div>
-                            <?php if (htmlspecialchars($vidUser) == '14') : ?>
-                                <input type="hidden" name="role" value="admin">
+                            <?php if ($idUserAktif == '14' || htmlspecialchars($vidUser) == $idUserAktif) : ?>
+                                <input type="hidden" name="idUser" value="<?php echo htmlspecialchars($vidUser); ?>">
+                                <div class="mb-3">
+                                    <label for="nama" class="form-label">Nama</label>
+                                    <input type="text" class="form-control" id="nama" name="nama" value="<?php echo htmlspecialchars($vnama); ?>" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($vemail); ?>" required>
+                                </div>
+                                <?php if (htmlspecialchars($vidUser) == '14') : ?>
+                                    <input type="hidden" name="role" value="admin">
+                                <?php else : ?>
+                                    <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') { ?>
+                                        <div class="mb-3">
+                                            <label for="role" class="form-label">Role</label>
+                                            <select class="form-control" id="role" name="role" required>
+                                                <option value="admin" <?php if (htmlspecialchars($vrole) == 'admin') echo 'selected'; ?>>Admin</option>
+                                                <option value="user" <?php if (htmlspecialchars($vrole) == 'user') echo 'selected'; ?>>User</option>
+                                            </select>
+                                        </div>
+                                    <?php } else { ?>
+                                        <div class="mb-3">
+                                            <label for="role" class="form-label">Role</label>
+                                            <select class="form-control" id="role" name="role" required>
+                                                <option value="user" selected>User</option>
+                                            </select>
+                                        </div>
+                                    <?php } ?>
+                                <?php endif; ?>
                             <?php else : ?>
-                                <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') { ?>
-                                    <div class="mb-3">
-                                        <label for="role" class="form-label">Role</label>
-                                        <select class="form-control" id="role" name="role" required>
-                                            <option value="admin" <?php if (htmlspecialchars($vrole) == 'admin') echo 'selected'; ?>>Admin</option>
-                                            <option value="user" <?php if (htmlspecialchars($vrole) == 'user') echo 'selected'; ?>>User</option>
-                                        </select>
-                                    </div>
-                                <?php } else { ?>
-                                    <div class="mb-3">
-                                        <label for="role" class="form-label">Role</label>
-                                        <select class="form-control" id="role" name="role" required>
-                                            <option value="user" selected>User</option>
-                                        </select>
-                                    </div>
-                                <?php } ?>
+                                <input type="hidden" name="idUser" value="<?php echo htmlspecialchars($vidUser); ?>">
+                                <div class="mb-3">
+                                    <label for="nama" class="form-label">Nama</label>
+                                    <input type="text" class="form-control" id="nama" name="nama" value="<?php echo htmlspecialchars($vnama); ?>" required>
+                                </div>
+                                <input type="hidden" name="email" value="<?php echo htmlspecialchars($vemail); ?>">
+                                <input type="hidden" name="role" value="<?php echo htmlspecialchars($vrole); ?>">
                             <?php endif; ?>
                         <?php else : ?>
-                            <input type="hidden" name="idUser" value="<?php echo $row['idUser']; ?>">
-                            <div class="mb-3">
-                                <label for="nama" class="form-label">Nama</label>
-                                <input type="text" class="form-control" id="nama" name="nama" value="<?php echo $row['nama']; ?>" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" value="<?php echo $row['email']; ?>" required>
-                            </div>
-                            <?php if ($row['idUser'] == '14') : ?>
-                                <input type="hidden" name="role" value="admin">
+                            <?php if ($idUserAktif == '14' || $row['idUser'] == $idUserAktif) : ?>
+                                <input type="hidden" name="idUser" value="<?php echo $row['idUser']; ?>">
+                                <div class="mb-3">
+                                    <label for="nama" class="form-label">Nama</label>
+                                    <input type="text" class="form-control" id="nama" name="nama" value="<?php echo $row['nama']; ?>" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" value="<?php echo $row['email']; ?>" required>
+                                </div>
+                                <?php if ($row['idUser'] == '14') : ?>
+                                    <input type="hidden" name="role" value="admin">
+                                <?php else : ?>
+                                    <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') { ?>
+                                        <div class="mb-3">
+                                            <label for="role" class="form-label">Role</label>
+                                            <select class="form-control" id="role" name="role" required>
+                                                <option value="admin" <?php if ($row['role'] == 'admin') echo 'selected'; ?>>Admin</option>
+                                                <option value="user" <?php if ($row['role'] == 'user') echo 'selected'; ?>>User</option>
+                                            </select>
+                                        </div>
+                                    <?php } else { ?>
+                                        <div class="mb-3">
+                                            <label for="role" class="form-label">Role</label>
+                                            <select class="form-control" id="role" name="role" required>
+                                                <option value="user" selected>User</option>
+                                            </select>
+                                        </div>
+                                    <?php } ?>
+                                <?php endif; ?>
                             <?php else : ?>
-                                <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') { ?>
-                                    <div class="mb-3">
-                                        <label for="role" class="form-label">Role</label>
-                                        <select class="form-control" id="role" name="role" required>
-                                            <option value="admin" <?php if ($row['role'] == 'admin') echo 'selected'; ?>>Admin</option>
-                                            <option value="user" <?php if ($row['role'] == 'user') echo 'selected'; ?>>User</option>
-                                        </select>
-                                    </div>
-                                <?php } else { ?>
-                                    <div class="mb-3">
-                                        <label for="role" class="form-label">Role</label>
-                                        <select class="form-control" id="role" name="role" required>
-                                            <option value="user" selected>User</option>
-                                        </select>
-                                    </div>
-                                <?php } ?>
+                                <input type="hidden" name="idUser" value="<?php echo $row['idUser']; ?>">
+                                <div class="mb-3">
+                                    <label for="nama" class="form-label">Nama</label>
+                                    <input type="text" class="form-control" id="nama" name="nama" value="<?php echo $row['nama']; ?>" required>
+                                </div>
+                                <input type="hidden" name="email" value="<?php echo $row['email']; ?>">
+                                <input type="hidden" name="role" value="<?php echo $row['role']; ?>">
                             <?php endif; ?>
                         <?php endif; ?>
                         <div class="mb-3">

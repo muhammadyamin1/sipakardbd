@@ -5,6 +5,9 @@ if (isset($_SESSION['nama']) && isset($_SESSION['role']) && $_SESSION['role'] ==
   $idUserAktif = $_SESSION['idUser'];
   $nama = $_SESSION['nama'];
   $role = $_SESSION['role'];
+  if (isset($_SESSION['editUserFormValues'])) {
+    unset($_SESSION['editUserFormValues']);
+  }
 } else {
   header("Location: index.php?pesan=belum-login");
   exit();
@@ -104,7 +107,7 @@ $conn->close();
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Daftar Pengguna Tersedia</h5>
-              <button id="tambahUser" class="btn btn-primary btn-sm mb-4"><i class="bi bi-person-plus"></i> Tambah Pengguna</button>
+              <?php if ($idUserAktif == '14') : ?><button id="tambahUser" class="btn btn-primary btn-sm mb-4"><i class="bi bi-person-plus"></i> Tambah Pengguna</button><?php endif; ?>
               <div class="table-responsive">
                 <table id="userTable" class="table" style="width:100%">
                   <thead>
@@ -124,14 +127,20 @@ $conn->close();
                           <td><?php echo $row['role']; ?></td>
                           <td>
                             <div class="btn-group" role="group">
-                              <form action="editUserForm.php" method="post">
-                                <input type="hidden" name="idUser" value="<?php echo $row['idUser']; ?>">
-                                <button type="submit" class="btn btn-primary btn-sm" name="edit"><i class="bi bi-pencil"></i> Edit</button>
-                              </form>
-                              <?php if ($row['idUser'] == $idUserAktif || $row['idUser'] == '14') : ?>
-                                <button class="btn btn-danger btn-sm disabled-button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Tidak dapat menghapus pengguna atau diri sendiri"><i class="bi bi-trash"></i> Hapus</button>
+                              <?php if ($row['idUser'] != '14') : ?>
+                                <form action="editUserForm.php" method="post">
+                                  <input type="hidden" name="idUser" value="<?php echo $row['idUser']; ?>">
+                                  <button type="submit" class="btn btn-primary btn-sm" name="edit"><i class="bi bi-pencil"></i> Edit</button>
+                                </form>
                               <?php else : ?>
-                                <button class="btn btn-danger btn-sm hapusUser" data-id="<?php echo $row['idUser']; ?>"><i class="bi bi-trash"></i> Hapus</button>
+                                <button class="btn btn-primary btn-sm disabled-button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Tidak diizinkan untuk mengedit pengguna"><i class="bi bi-pencil"></i> Edit</button>
+                              <?php endif; ?>
+                              <?php if ($idUserAktif == '14') : ?>
+                                <?php if ($row['idUser'] == '14') : ?>
+                                  <button class="btn btn-danger btn-sm disabled-button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Tidak dapat menghapus pengguna atau diri sendiri"><i class="bi bi-trash"></i> Hapus</button>
+                                <?php else : ?>
+                                  <button class="btn btn-danger btn-sm hapusUser" data-id="<?php echo $row['idUser']; ?>"><i class="bi bi-trash"></i> Hapus</button>
+                                <?php endif; ?>
                               <?php endif; ?>
                             </div>
                           </td>
@@ -280,12 +289,15 @@ $conn->close();
     });
 
     // Tombol Tambah Pengguna
-    document.getElementById('tambahUser').addEventListener('click', function() {
-      var tambahUserModal = new bootstrap.Modal(document.getElementById('tambahUserModal'), {
-        keyboard: false
+    const tambahUser = document.getElementById('tambahUser');
+    if (tambahUser) {
+      tambahUser.addEventListener('click', function() {
+        var tambahUserModal = new bootstrap.Modal(document.getElementById('tambahUserModal'), {
+          keyboard: false
+        });
+        tambahUserModal.show();
       });
-      tambahUserModal.show();
-    });
+    }
 
     document.addEventListener('DOMContentLoaded', function() {
       var userIdToDelete;
