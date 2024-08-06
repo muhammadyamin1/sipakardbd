@@ -11,3 +11,29 @@ Cara install aplikasi sistem pakar deteksi dini penyakit demam berdarah dengue:
 10. Tutup phpMyAdmin dan ketik "localhost/sipakardbd" pada address bar
 11. Jika muncul tampilan login, Selamat! Aplikasi Sistem Pakar Deteksi Dini Pennyakit Demam Berdarah Dengue berhasil berjalan secara local di komputer/pc anda.
 12. Jangan lupa untuk mengaktifkan kambali Apache dan MySQL pada XAMPP Control Panel setiap kali anda mematikan (shutdown) atau menyalakan ulang (restart) komputer/pc anda.
+
+# Akun login
+- Super Admin ! Harap segera mengganti email dan password super admin setelah login di bagian kanan atas
+    email    :muhammadyamin1081@gmail.com
+    password :admin
+    > Dapat menambah, mengedit, dan menghapus seluruh pengguna yang ada pada sistem pakar
+    > Mengakses seluruh menu pada sistem pakar
+    > Mengedit profilnya sendiri
+
+- Admin
+    email    :aldi123@gmail.com
+    password :admin
+    > Hanya dapat mengedit pengguna yang ada pada sistem pakar dan dibatasi hanya untuk mengedit Nama dan Password
+    > Mengakses seluruh menu pada sistem pakar
+    > Mengedit profilnya sendiri
+
+- User
+    # 1 ------------------
+    email    :riski123@gmail.com
+    password :user
+    # 2 ------------------
+    email    :dedi@gmail.com
+    password :dedi123
+    ------------------
+    > Hanya dapat mengakses menu Beranda, Diagnosis, Laporan, dan Tentang Aplikasi
+    > Mengedit profilnya sendiri
