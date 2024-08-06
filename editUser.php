@@ -3,7 +3,9 @@ include 'dbKoneksi.php';
 session_start();
 
 // Periksa apakah sudah ada sesi dan data yang disimpan
-if (!isset($_SESSION['nama']) || !isset($_SESSION['role'])) {
+if (isset($_SESSION['nama']) && isset($_SESSION['role'])) {
+  $idUserAktif = $_SESSION['idUser'];
+} else {
   header("Location: index.php?pesan=belum-login");
   exit();
 }
@@ -16,11 +18,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $password = $_POST['password'];
   $confirm_password = $_POST['confirm_password'];
 
+  // Ambil role dan email lama dari database
+  $sql = "SELECT role, email FROM tb_user WHERE idUser='$idUser'";
+  $result = $conn->query($sql);
+  $row = $result->fetch_assoc();
+  $currentRole = $row['role'];
+  $currentEmail = $row['email'];
+
+  // Validasi tambahan untuk mencegah admin mengubah data Super User
+  if ($idUser == '14' && $_SESSION['idUser'] != '14') {
+    $_SESSION['error'] = "Anda tidak diizinkan mengubah data Super Admin.";
+    $_SESSION['editUserFormValues'] = [
+      'idUser' => $idUser,
+      'nama' => $nama,
+      'email' => $email,
+      'role' => $role
+    ];
+    header("Location: editUserForm.php");
+    exit();
+  }
+
+  // Tentukan role baru berdasarkan idUser dan sesi
   if ($idUser == '14') {
-    $role = 'admin';
-  } else if ($_SESSION['role'] != 'admin') {
-    // Jika bukan admin, pastikan role tetap sebagai user
-    $role = 'user';
+    $role = 'admin'; // pastikan idUser 14 tetap admin
+  } else if ($_SESSION['idUser'] == '14' && isset($_POST['role'])) {
+    $role = $_POST['role']; // admin dengan idUser 14 bisa mengubah role
+  } else {
+    $role = $currentRole; // selain itu, role tetap tidak berubah
+  }
+
+  // Tentukan email baru berdasarkan idUser dan sesi
+  if ($idUser == $idUserAktif || $_SESSION['idUser'] == '14' && isset($_POST['email'])) {
+    $email = $_POST['email'];
+  } else {
+    $email = $currentEmail;
   }
 
   // Cek apakah email sudah digunakan oleh pengguna lain

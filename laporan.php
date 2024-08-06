@@ -5,6 +5,9 @@ if (isset($_SESSION['nama']) && isset($_SESSION['role'])) {
   $idUserAktif = $_SESSION['idUser'];
   $nama = $_SESSION['nama'];
   $role = $_SESSION['role'];
+  if (isset($_SESSION['editUserFormValues'])) {
+    unset($_SESSION['editUserFormValues']);
+  }
 } else {
   header("Location: index.php?pesan=belum-login");
   exit();

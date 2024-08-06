@@ -113,7 +113,7 @@ $vrole = isset($_SESSION['editUserFormValues']['role']) ? $_SESSION['editUserFor
 
                     <form action="editUser.php" method="post">
                         <?php if (isset($_SESSION['editUserFormValues'])) : ?>
-                            <?php if ($idUserAktif == '14' || htmlspecialchars($vidUser) == $idUserAktif) : ?>
+                            <?php if ($idUserAktif == '14') : ?>
                                 <input type="hidden" name="idUser" value="<?php echo htmlspecialchars($vidUser); ?>">
                                 <div class="mb-3">
                                     <label for="nama" class="form-label">Nama</label>
@@ -123,9 +123,7 @@ $vrole = isset($_SESSION['editUserFormValues']['role']) ? $_SESSION['editUserFor
                                     <label for="email" class="form-label">Email</label>
                                     <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($vemail); ?>" required>
                                 </div>
-                                <?php if (htmlspecialchars($vidUser) == '14') : ?>
-                                    <input type="hidden" name="role" value="admin">
-                                <?php else : ?>
+                                <?php if (htmlspecialchars($vidUser) != '14') : ?>
                                     <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') { ?>
                                         <div class="mb-3">
                                             <label for="role" class="form-label">Role</label>
@@ -134,26 +132,27 @@ $vrole = isset($_SESSION['editUserFormValues']['role']) ? $_SESSION['editUserFor
                                                 <option value="user" <?php if (htmlspecialchars($vrole) == 'user') echo 'selected'; ?>>User</option>
                                             </select>
                                         </div>
-                                    <?php } else { ?>
-                                        <div class="mb-3">
-                                            <label for="role" class="form-label">Role</label>
-                                            <select class="form-control" id="role" name="role" required>
-                                                <option value="user" selected>User</option>
-                                            </select>
-                                        </div>
                                     <?php } ?>
                                 <?php endif; ?>
+                            <?php elseif (htmlspecialchars($vidUser) == $idUserAktif) : ?>
+                                <input type="hidden" name="idUser" value="<?php echo htmlspecialchars($vidUser); ?>">
+                                <div class="mb-3">
+                                    <label for="nama" class="form-label">Nama</label>
+                                    <input type="text" class="form-control" id="nama" name="nama" value="<?php echo htmlspecialchars($vnama); ?>" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($vemail); ?>" required>
+                                </div>
                             <?php else : ?>
                                 <input type="hidden" name="idUser" value="<?php echo htmlspecialchars($vidUser); ?>">
                                 <div class="mb-3">
                                     <label for="nama" class="form-label">Nama</label>
                                     <input type="text" class="form-control" id="nama" name="nama" value="<?php echo htmlspecialchars($vnama); ?>" required>
                                 </div>
-                                <input type="hidden" name="email" value="<?php echo htmlspecialchars($vemail); ?>">
-                                <input type="hidden" name="role" value="<?php echo htmlspecialchars($vrole); ?>">
                             <?php endif; ?>
                         <?php else : ?>
-                            <?php if ($idUserAktif == '14' || $row['idUser'] == $idUserAktif) : ?>
+                            <?php if ($idUserAktif == '14') : ?>
                                 <input type="hidden" name="idUser" value="<?php echo $row['idUser']; ?>">
                                 <div class="mb-3">
                                     <label for="nama" class="form-label">Nama</label>
@@ -163,9 +162,7 @@ $vrole = isset($_SESSION['editUserFormValues']['role']) ? $_SESSION['editUserFor
                                     <label for="email" class="form-label">Email</label>
                                     <input type="email" class="form-control" id="email" name="email" value="<?php echo $row['email']; ?>" required>
                                 </div>
-                                <?php if ($row['idUser'] == '14') : ?>
-                                    <input type="hidden" name="role" value="admin">
-                                <?php else : ?>
+                                <?php if ($row['idUser'] != '14') : ?>
                                     <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') { ?>
                                         <div class="mb-3">
                                             <label for="role" class="form-label">Role</label>
@@ -174,23 +171,24 @@ $vrole = isset($_SESSION['editUserFormValues']['role']) ? $_SESSION['editUserFor
                                                 <option value="user" <?php if ($row['role'] == 'user') echo 'selected'; ?>>User</option>
                                             </select>
                                         </div>
-                                    <?php } else { ?>
-                                        <div class="mb-3">
-                                            <label for="role" class="form-label">Role</label>
-                                            <select class="form-control" id="role" name="role" required>
-                                                <option value="user" selected>User</option>
-                                            </select>
-                                        </div>
-                                    <?php } ?>
+                                    <?php }  ?>
                                 <?php endif; ?>
+                            <?php elseif ($row['idUser'] == $idUserAktif) : ?>
+                                <input type="hidden" name="idUser" value="<?php echo $row['idUser']; ?>">
+                                <div class="mb-3">
+                                    <label for="nama" class="form-label">Nama</label>
+                                    <input type="text" class="form-control" id="nama" name="nama" value="<?php echo $row['nama']; ?>" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" value="<?php echo $row['email']; ?>" required>
+                                </div>
                             <?php else : ?>
                                 <input type="hidden" name="idUser" value="<?php echo $row['idUser']; ?>">
                                 <div class="mb-3">
                                     <label for="nama" class="form-label">Nama</label>
                                     <input type="text" class="form-control" id="nama" name="nama" value="<?php echo $row['nama']; ?>" required>
                                 </div>
-                                <input type="hidden" name="email" value="<?php echo $row['email']; ?>">
-                                <input type="hidden" name="role" value="<?php echo $row['role']; ?>">
                             <?php endif; ?>
                         <?php endif; ?>
                         <div class="mb-3">
@@ -201,11 +199,11 @@ $vrole = isset($_SESSION['editUserFormValues']['role']) ? $_SESSION['editUserFor
                             <label for="confirm_password" class="form-label">Konfirmasi Password Baru</label>
                             <input type="password" class="form-control" id="confirm_password" name="confirm_password" autocomplete="new-password">
                         </div>
-                        <div class="d-flex justify-content-between">
-                            <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Simpan Perubahan</button>
+                        <div class="d-flex">
                             <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'admin') : ?>
-                                <a href="kelolaPengguna.php" class="btn btn-secondary float-end"><i class="bi bi-arrow-left"></i> Kembali</a>
+                                <a href="kelolaPengguna.php" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
                             <?php endif; ?>
+                            <button type="submit" class="btn btn-primary ms-2"><i class="bi bi-save"></i> Simpan Perubahan</button>
                         </div>
                     </form>
 
